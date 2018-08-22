@@ -10,6 +10,9 @@ Get the [trial license](https://www.dynamsoft.com/CustomerPortal/Portal/Triallic
 ## Contact Us
 <support@dynamsoft.com>
 
+## Environment
+* Visual Studio 2017
+
 ## Installation
 
 - [Xamarin.Dynamsoft.Barcode.Android](https://www.nuget.org/packages/Xamarin.Dynamsoft.Barcode.Android/)
