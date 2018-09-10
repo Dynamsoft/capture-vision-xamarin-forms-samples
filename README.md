@@ -31,3 +31,12 @@ Get the [trial license](https://www.dynamsoft.com/CustomerPortal/Portal/Triallic
 1. Import examples to **Visual Studio**.
 2. Install the barcode SDK via **Package Manager**.
 3. Build projects in release mode.
+
+## Examples
+- examples
+    - Android
+        - [helloworld](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/Android/helloworld)
+        - [camera](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/Android/camera)
+    - iOS
+        - [helloworld](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/iOS/helloworld)
+        - [camera](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/iOS/camera)
