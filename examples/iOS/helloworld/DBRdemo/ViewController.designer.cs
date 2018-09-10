@@ -16,48 +16,35 @@ namespace DBRdemo
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel label { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIImageView qrimage { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton Read { get; set; }
+        UIKit.UIButton readBtn { get; set; }
 
-        [Outlet]
+        [Action ("OnReadBtnClick:")]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton Reset { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel text { get; set; }
-
-        [Action ("onReadBtnClick:")]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        partial void onReadBtnClick (UIKit.UIButton sender);
-
-        [Action ("onResetBtnClick:")]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        partial void onResetBtnClick (UIKit.UIButton sender);
+        partial void OnReadBtnClick (UIKit.UIButton sender);
 
         void ReleaseDesignerOutlets ()
         {
+            if (label != null) {
+                label.Dispose ();
+                label = null;
+            }
+
             if (qrimage != null) {
                 qrimage.Dispose ();
                 qrimage = null;
             }
 
-            if (Read != null) {
-                Read.Dispose ();
-                Read = null;
-            }
-
-            if (Reset != null) {
-                Reset.Dispose ();
-                Reset = null;
-            }
-
-            if (text != null) {
-                text.Dispose ();
-                text = null;
+            if (readBtn != null) {
+                readBtn.Dispose ();
+                readBtn = null;
             }
         }
     }

@@ -1,11 +1,14 @@
 ﻿using System;
 using UIKit;
 using DBRiOS;
+using CoreGraphics;
 
 namespace DBRdemo
 {
     public partial class ViewController : UIViewController
     {
+        private bool haveRead = false;
+
 		public ViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -22,17 +25,27 @@ namespace DBRdemo
 			// Release any cached data, images, etc that aren't in use.
 		}
 
-        partial void onReadBtnClick(UIButton sender)
+        partial void OnReadBtnClick(UIButton sender)
         {
-            Foundation.NSError error = new Foundation.NSError();
-            DynamsoftBarcodeReader barcodeReader = new DynamsoftBarcodeReader("");
-            TextResult[] result = barcodeReader.DecodeImage(qrimage.Image, "", out error);
-            text.Text = result[0].BarcodeText;
+            if(haveRead)
+            {
+                label.Text = "";
+                haveRead = false;
+                readBtn.SetTitle("Read", UIControlState.Normal);
+            }
+            else
+            {
+                Foundation.NSError error = new Foundation.NSError();
+                DynamsoftBarcodeReader barcodeReader = new DynamsoftBarcodeReader("");
+                TextResult[] result = barcodeReader.DecodeImage(qrimage.Image, "", out error);
+                label.Text = result[0].BarcodeText;
+                readBtn.SetTitle("Reset", UIControlState.Normal);
+            }
         }
 
-        partial void onResetBtnClick(UIButton sender)
+        public override void ViewWillTransitionToSize(CGSize toSize, IUIViewControllerTransitionCoordinator coordinator)
         {
-            text.Text = "";
+            base.ViewWillTransitionToSize(toSize, coordinator);
         }
     }
 }
