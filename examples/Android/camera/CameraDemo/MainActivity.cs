@@ -9,6 +9,7 @@ using Android;
 using Android.Support.V4.App;
 using Android.Content.PM;
 using Com.Dynamsoft.Barcode;
+using System.Collections.Generic;
 
 namespace CameraDemo
 {
@@ -94,8 +95,13 @@ namespace CameraDemo
             cameraP.PictureFormat = ImageFormatType.Jpeg;
             cameraP.PreviewFormat = ImageFormatType.Nv21;
             cameraP.FocusMode = Android.Hardware.Camera.Parameters.FocusModeContinuousVideo;
-            cameraP.SetPreviewSize(960, 720);
-
+            IList<Android.Hardware.Camera.Size> suportedPreviewSizes = cameraP.SupportedPreviewSizes;
+            int i = 0;
+            for (i=0;i<suportedPreviewSizes.Count;i++)
+            {
+                if (suportedPreviewSizes[i].Width < 1000) break;
+            }
+            cameraP.SetPreviewSize(suportedPreviewSizes[i].Width,suportedPreviewSizes[i].Height);
             camera.SetParameters(cameraP);
             camera.SetDisplayOrientation(90);
             camera.SetPreviewCallback(this);
@@ -107,8 +113,14 @@ namespace CameraDemo
             //Get camera height
             previewHeight = cameraP.PreviewSize.Height;
 
-            surface.ScaleY = surface.Width * 1.0f * previewWidth / previewHeight / surface.Height;
-
+            //Resize SurfaceView Size
+            float scaledHeight = previewWidth * 1.0f * surface.Width / previewHeight;
+            float prevHeight = surface.Height;
+            ViewGroup.LayoutParams lp = surface.LayoutParameters;
+            lp.Width = surface.Width;
+            lp.Height = (int)scaledHeight;
+            surface.LayoutParameters = lp;
+            surface.Top = (int)((prevHeight - scaledHeight) / 2);
             surface.DrawingCacheEnabled = true;
         }
 
