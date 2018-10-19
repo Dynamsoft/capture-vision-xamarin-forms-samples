@@ -40,5 +40,5 @@ Get the [trial license](https://www.dynamsoft.com/CustomerPortal/Portal/Triallic
     - iOS
         - [helloworld](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/iOS/helloworld)
         - [camera](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/iOS/camera)
-    - DBRXFSample（Xamarin.Forms sample）
-        - [DBRXFSSample](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/DBRXFSample)
+    - XamarinForms（Xamarin.Forms sample）
+        - [DBRXFSSample](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/XamarinForms/DBRXFSample)
