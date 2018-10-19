@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:DBRXFSample"
+             x:Class="DBRXFSample.MainPage">
+
+    <StackLayout>
+        <!-- Place new controls here -->
+        <Image x:Name="image"
+               Source="qr.PNG" />
+        <Label x:Name="label"
+           Text="BBRSample for Xamarin.Forms" 
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand" />
+        <Button x:Name="btn"
+            Text="Read" 
+            Clicked="OnBtnReadClick" />
+    </StackLayout>
+
+</ContentPage>
