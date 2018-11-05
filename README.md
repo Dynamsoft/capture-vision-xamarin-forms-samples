@@ -1,4 +1,4 @@
-# Xamarin Barcode SDK
+# Xamarin Barcode Reader SDK
 
 Version 6.4
 
