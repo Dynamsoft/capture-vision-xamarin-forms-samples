@@ -2,7 +2,7 @@
 
 Version 6.4
 
-The repository aims to help developers build **Android** and **iOS** barcode apps with Dynamsoft Xamarin Barcode SDK.
+The repository aims to help developers build **Android** and **iOS** barcode apps with Dynamsoft Xamarin Barcode Reader SDK.
 
 ## License
 Get the [trial license](https://www.dynamsoft.com/CustomerPortal/Portal/Triallicense.aspx).
