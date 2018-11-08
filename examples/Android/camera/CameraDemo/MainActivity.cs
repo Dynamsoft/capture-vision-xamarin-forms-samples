@@ -19,8 +19,10 @@ namespace CameraDemo
         private Android.Hardware.Camera camera;
         private SurfaceView surface = null;
         private ImageButton flahBtn;
+        private Button zoomInBtn;
+        private Button zoomOutBtn;
         private bool flashOn;
-        private Android.Hardware.Camera.Parameters cameraP;
+        
 
         protected override void OnCreate(Bundle savedInstanceState)
 		{
@@ -31,6 +33,35 @@ namespace CameraDemo
 
             tv_text = FindViewById<TextView>(Resource.Id.tv_text);
             surface = FindViewById<SurfaceView>(Resource.Id.sv_surfaceView);
+            zoomInBtn = FindViewById<Button>(Resource.Id.btZoomin);
+            zoomInBtn.Click += delegate
+            {
+                if (camera != null)
+                {
+                    Android.Hardware.Camera.Parameters parameters = camera.GetParameters();
+                    int curZoom = parameters.Zoom;
+                    if(curZoom+1 <= parameters.MaxZoom)
+                    {
+                        parameters.Zoom = curZoom + 1;
+                        camera.SetParameters(parameters);
+                    }
+                }
+            };
+            zoomOutBtn = FindViewById<Button>(Resource.Id.btZoomout);
+            zoomOutBtn.Click += delegate
+            {
+                if (camera != null)
+                {
+                    Android.Hardware.Camera.Parameters parameters = camera.GetParameters();
+                    int curZoom = parameters.Zoom;
+                    if (curZoom - 1 >= 0)
+                    {
+                        parameters.Zoom = curZoom - 1;
+                        camera.SetParameters(parameters);
+                    }
+                }
+            };
+
             var holder = surface.Holder;
             holder.AddCallback(this);
 
@@ -38,19 +69,23 @@ namespace CameraDemo
             flahBtn = FindViewById<ImageButton>(Resource.Id.flahBtn);
             flahBtn.Click += delegate
             {
+                if (camera == null)
+                    return;
+
+                Android.Hardware.Camera.Parameters parameters = camera.GetParameters();
                 if (!flashOn)
                 {
-                    cameraP.FlashMode = Android.Hardware.Camera.Parameters.FlashModeTorch;
+                    parameters.FlashMode = Android.Hardware.Camera.Parameters.FlashModeTorch;
                     flahBtn.SetImageResource(Resource.Drawable.flashoff);
                     flashOn = true;
                 }
                 else
                 {
-                    cameraP.FlashMode = Android.Hardware.Camera.Parameters.FlashModeOff;
+                    parameters.FlashMode = Android.Hardware.Camera.Parameters.FlashModeOff;
                     flahBtn.SetImageResource(Resource.Drawable.flashon);
                     flashOn = false;
                 }
-                camera.SetParameters(cameraP);
+                camera.SetParameters(parameters);
             };
         }
         
@@ -91,27 +126,26 @@ namespace CameraDemo
 
 
             camera = Android.Hardware.Camera.Open();
-            cameraP = camera.GetParameters();
-            cameraP.PictureFormat = ImageFormatType.Jpeg;
-            cameraP.PreviewFormat = ImageFormatType.Nv21;
-            cameraP.FocusMode = Android.Hardware.Camera.Parameters.FocusModeContinuousVideo;
-            IList<Android.Hardware.Camera.Size> suportedPreviewSizes = cameraP.SupportedPreviewSizes;
+            Android.Hardware.Camera.Parameters parameters = camera.GetParameters();
+            parameters.PictureFormat = ImageFormatType.Jpeg;
+            parameters.PreviewFormat = ImageFormatType.Nv21;
+            parameters.FocusMode = Android.Hardware.Camera.Parameters.FocusModeContinuousVideo;
+            IList<Android.Hardware.Camera.Size> suportedPreviewSizes = parameters.SupportedPreviewSizes;
             int i = 0;
             for (i=0;i<suportedPreviewSizes.Count;i++)
             {
                 if (suportedPreviewSizes[i].Width < 1000) break;
             }
-            cameraP.SetPreviewSize(suportedPreviewSizes[i].Width,suportedPreviewSizes[i].Height);
-            camera.SetParameters(cameraP);
+            parameters.SetPreviewSize(suportedPreviewSizes[i].Width,suportedPreviewSizes[i].Height);
+            camera.SetParameters(parameters);
             camera.SetDisplayOrientation(90);
             camera.SetPreviewCallback(this);
             camera.SetPreviewDisplay(surface.Holder);
-            camera.StartPreview();
-
+            camera.StartPreview();           
             //Get camera width
-            previewWidth = cameraP.PreviewSize.Width;
+            previewWidth = parameters.PreviewSize.Width;
             //Get camera height
-            previewHeight = cameraP.PreviewSize.Height;
+            previewHeight = parameters.PreviewSize.Height;
 
             //Resize SurfaceView Size
             float scaledHeight = previewWidth * 1.0f * surface.Width / previewHeight;

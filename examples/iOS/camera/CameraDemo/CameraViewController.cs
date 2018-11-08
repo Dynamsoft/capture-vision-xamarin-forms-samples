@@ -96,8 +96,17 @@ namespace CameraDemo
             // take a long time. We dispatch session setup to the sessionQueue so
             // that the main queue isn't blocked, which keeps the UI responsive.
             this.sessionQueue.DispatchAsync(this.ConfigureSession);
-        }
 
+            UISlider focusSlider = new UISlider(new CGRect(60, this.View.Frame.Location.Y - 60, 200, 20));
+           // focusSlider.AddTarget(focusSlider, new ObjCRuntime.Selector(AdjustFocusAction), UIControlEvent.ValueChanged);
+            focusSlider.MaxValue = 1;
+            focusSlider.MinValue = 0;
+            this.View.AddSubview(focusSlider);
+        }
+        private void AdjustFocusAction(Object sender)
+        {
+
+        }
         partial void onClickFlahBtn(UIButton sender)
         {
             if(!flashOn)
@@ -243,13 +252,31 @@ namespace CameraDemo
                     this.session.CommitConfiguration();
                     return;
                 }
+                
+                //set the focus mode to AutoFocus
+                if (defaultVideoDevice.IsFocusModeSupported(AVCaptureFocusMode.ContinuousAutoFocus))
+                {
+                    NSError errorConfig;
+                    defaultVideoDevice.LockForConfiguration(out errorConfig);
+                    defaultVideoDevice.FocusMode = AVCaptureFocusMode.ContinuousAutoFocus;
+                    defaultVideoDevice.UnlockForConfiguration();
+                }
+                if(defaultVideoDevice.AutoFocusRangeRestrictionSupported)
+                {
+                    NSError errorConfig;
+                    defaultVideoDevice.LockForConfiguration(out errorConfig);
+                    defaultVideoDevice.AutoFocusRangeRestriction = AVCaptureAutoFocusRangeRestriction.Near;
+                    defaultVideoDevice.UnlockForConfiguration();
+                }
+                //end focus mode setting
 
                 NSError error;
                 var videoDeviceInput = AVCaptureDeviceInput.FromDevice(defaultVideoDevice, out error);
+                
                 if (this.session.CanAddInput(videoDeviceInput))
                 {
-                    this.session.AddInput(videoDeviceInput);
-                    this.videoDeviceInput = videoDeviceInput;
+                    this.videoDeviceInput = videoDeviceInput;                 
+                    this.session.AddInput(videoDeviceInput);                   
 
                     DispatchQueue.MainQueue.DispatchAsync(() =>
                     {
@@ -461,7 +488,32 @@ namespace CameraDemo
             
         }
 
+        //zoom in
+        partial void BtnZoomIn_TouchUpInside(UIButton sender)
+        {
+            device.LockForConfiguration(out error);
+            nfloat fZoominValue = device.VideoZoomFactor + 0.2f;
+            if (fZoominValue >= device.ActiveFormat.VideoMaxZoomFactor)
+                device.VideoZoomFactor = device.ActiveFormat.VideoMaxZoomFactor;
+            else
+                device.VideoZoomFactor = fZoominValue;
+
+           device.UnlockForConfiguration();
+        }
+
+        //zoom out
+        partial void BtnZoomOut_TouchUpInside(UIButton sender)
+        {
+            device.LockForConfiguration(out error);
+            nfloat fZoomoutValue = device.VideoZoomFactor-0.2f;
+            if(fZoomoutValue<1)
+                device.VideoZoomFactor=1;
+            else
+                device.VideoZoomFactor = fZoomoutValue;
+            device.UnlockForConfiguration();
+        }
+
         #endregion
-        
+
     }
 }

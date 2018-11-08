@@ -14,122 +14,141 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:id="@+id/pic_layer">
-		<LinearLayout
-			android:orientation="vertical"
-			android:minWidth="25px"
-			android:minHeight="25px"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:id="@+id/linearLayout1">
-			<TextView
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:id="@+id/textView1"
-				android:layout_weight="1"
-				android:background="#4c000000" />
-			<LinearLayout
-				android:orientation="horizontal"
-				android:minWidth="25px"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:id="@+id/linearLayout2"
-				android:layout_weight="0">
-				<TextView
-					android:layout_width="fill_parent"
-					android:layout_height="match_parent"
-					android:id="@+id/textView3"
-					android:layout_weight="1"
-					android:background="#4c000000" />
-				<ImageView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:id="@+id/imageView1"
-					android:background="@drawable/scannerbox"
-					android:fitsSystemWindows="false"
-					android:layout_weight="0"
-					android:maxWidth="200dp"
-					android:minWidth="200dp"
-					android:maxHeight="200dp"
-					android:minHeight="200dp" />
-				<TextView
-					android:layout_width="fill_parent"
-					android:layout_height="match_parent"
-					android:id="@+id/textView4"
-					android:layout_weight="1"
-					android:background="#4c000000" />
-			</LinearLayout>
-			<LinearLayout
-				android:orientation="vertical"
-				android:minWidth="25px"
-				android:minHeight="25px"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:id="@+id/linearLayout3"
-				android:layout_weight="1">
-				<TextView
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:id="@+id/textView7"
-					android:background="#4c000000" />
-				<LinearLayout
-					android:orientation="horizontal"
-					android:minWidth="25px"
-					android:minHeight="25px"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:id="@+id/linearLayout4"
-					android:layout_weight="0">
-					<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="match_parent"
-						android:id="@+id/textView5"
-						android:layout_weight="1"
-						android:background="#4c000000" />
-					<ImageButton
-						android:layout_width="60dp"
-						android:layout_height="60dp"
-						android:id="@+id/flahBtn"
-						android:src="@drawable/flashon"
-						android:layout_weight="0"
-						android:fitsSystemWindows="false"
-						android:scaleType="fitXY"
-						android:drawingCacheQuality="auto"
-						android:adjustViewBounds="false"
-						android:maxHeight="100dp"
-						android:maxWidth="100dp"
-						android:background="#4c000000" />
-					<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="match_parent"
-						android:id="@+id/textView6"
-						android:layout_weight="1"
-						android:background="#4c000000" />
-				</LinearLayout>
-				<TextView
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:id="@+id/textView2"
-					android:layout_weight="1"
-					android:background="#4c000000" />
-			</LinearLayout>
-		</LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/linearLayout1">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView1"
+                android:layout_weight="1"
+                android:background="#4c000000" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:minWidth="25px"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/linearLayout2"
+                android:layout_weight="0">
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/textView3"
+                    android:layout_weight="1"
+                    android:background="#4c000000" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView1"
+                    android:background="@drawable/scannerbox"
+                    android:fitsSystemWindows="false"
+                    android:layout_weight="0"
+                    android:maxWidth="200dp"
+                    android:minWidth="200dp"
+                    android:maxHeight="200dp"
+                    android:minHeight="200dp" />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/textView4"
+                    android:layout_weight="1"
+                    android:background="#4c000000" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/linearLayout3"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView7"
+                    android:background="#4c000000" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:minWidth="25px"
+                    android:minHeight="25px"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linearLayout4"
+                    android:layout_weight="0">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/textView5"
+                        android:layout_weight="1"
+                        android:background="#4c000000" />
+                    <ImageButton
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:id="@+id/flahBtn"
+                        android:src="@drawable/flashon"
+                        android:layout_weight="0"
+                        android:fitsSystemWindows="false"
+                        android:scaleType="fitXY"
+                        android:drawingCacheQuality="auto"
+                        android:adjustViewBounds="false"
+                        android:maxHeight="100dp"
+                        android:maxWidth="100dp"
+                        android:background="#4c000000" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/textView6"
+                        android:layout_weight="1"
+                        android:background="#4c000000" />
+                </LinearLayout>
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView2"
+                    android:layout_weight="1"
+                    android:background="#4c000000" />
+            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
-	<RelativeLayout
-		android:minWidth="25px"
-		android:minHeight="25px"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/text_layer"
-		android:clickable="false"
-		android:contextClickable="false"
-		android:longClickable="false">
-		<TextView
-			android:id="@+id/tv_text"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentBottom="true"
-			android:layout_centerHorizontal="true"
-			android:textColor="#ffffffff"
-			android:textAlignment="center" />
-	</RelativeLayout>
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_layer"
+        android:clickable="false"
+        android:contextClickable="false"
+        android:longClickable="false">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btZoomin"
+            android:text="Zoom in"
+            android:textColor="#ffffff"
+            android:layout_margin="10dp"
+            android:background="#00000000"
+            android:layout_alignParentTop="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btZoomout"
+            android:text="Zoom out"
+            android:textColor="#ffffff"
+            android:layout_margin="10dp"
+            android:background="#00000000"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true" />
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffffff"
+            android:textAlignment="center" />
+    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

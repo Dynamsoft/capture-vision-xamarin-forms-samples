@@ -15,6 +15,14 @@ namespace CameraDemo
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton btnZoomIn { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton btnZoomOut { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton flashBtn { get; set; }
 
         [Outlet]
@@ -25,12 +33,30 @@ namespace CameraDemo
         [GeneratedCode ("iOS Designer", "1.0")]
         CameraDemo.PreviewView PreviewView { get; set; }
 
+        [Action ("BtnZoomIn_TouchUpInside:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void BtnZoomIn_TouchUpInside (UIKit.UIButton sender);
+
+        [Action ("BtnZoomOut_TouchUpInside:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void BtnZoomOut_TouchUpInside (UIKit.UIButton sender);
+
         [Action ("onClickFlahBtn:")]
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void onClickFlahBtn (UIKit.UIButton sender);
 
         void ReleaseDesignerOutlets ()
         {
+            if (btnZoomIn != null) {
+                btnZoomIn.Dispose ();
+                btnZoomIn = null;
+            }
+
+            if (btnZoomOut != null) {
+                btnZoomOut.Dispose ();
+                btnZoomOut = null;
+            }
+
             if (flashBtn != null) {
                 flashBtn.Dispose ();
                 flashBtn = null;
