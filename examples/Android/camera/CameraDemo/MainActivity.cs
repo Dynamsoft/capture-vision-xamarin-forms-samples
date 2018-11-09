@@ -89,7 +89,7 @@ namespace CameraDemo
             };
         }
         
-        private static BarcodeReader barcodeReader = new BarcodeReader("t0068MgAAABlOih7jbq10NbpqRczC1hLLu/qZsLWkVW0KBu7u/wruw4zcQXlnIMAWCZ/5cnA/JTRvQ4h+syYnev0wYNWAfX8=");
+        private static BarcodeReader barcodeReader = new BarcodeReader("t0068MgAAACm/O50JQCeJC5TJTNpXrUs4Do3MPzQxK0CvQvCGslylduMz/icYA3lAmVbE7NYhTFM60BRpW3QUav1sP6MWdZo=");
         private static TextView tv_text;
         private static MyHandler myHandler = new MyHandler();
         private static int previewWidth;
@@ -99,7 +99,8 @@ namespace CameraDemo
         private static bool isReady = true;
         private static bool fromBack = false;
         public const int REQUEST_CAMERA_PERMISSION = 1;
-
+        private HandlerThread handlerThread;
+        private MyHandler backgroundHandler;
         protected override void OnResume()
         {
             base.OnResume();
@@ -134,7 +135,7 @@ namespace CameraDemo
             int i = 0;
             for (i=0;i<suportedPreviewSizes.Count;i++)
             {
-                if (suportedPreviewSizes[i].Width < 1000) break;
+                if (suportedPreviewSizes[i].Width < 1300) break;
             }
             parameters.SetPreviewSize(suportedPreviewSizes[i].Width,suportedPreviewSizes[i].Height);
             camera.SetParameters(parameters);
@@ -156,6 +157,12 @@ namespace CameraDemo
             surface.LayoutParameters = lp;
             surface.Top = (int)((prevHeight - scaledHeight) / 2);
             surface.DrawingCacheEnabled = true;
+
+            handlerThread = new HandlerThread("background");
+            handlerThread.Start();
+            backgroundHandler = new MyHandler(handlerThread.Looper);
+           
+
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
@@ -174,29 +181,32 @@ namespace CameraDemo
         public void OnPreviewFrame(byte[] data, Android.Hardware.Camera camera)
         {
             try
-            {
+            {                
+                System.Console.WriteLine("start create Image");
+                yuvImage = new YuvImage(data, ImageFormatType.Nv21,
+                        previewWidth, previewHeight, null);
+                    
+                stride = yuvImage.GetStrides();
+
                 try
                 {
-                    
-                    yuvImage = new YuvImage(data, ImageFormatType.Nv21,
-                            previewWidth, previewHeight, null);
-                    
-                    stride = yuvImage.GetStrides();
-                    if(isReady)
+                    if (isReady)
                     {
-                        isReady = false;
-                        new ReaderTask().Execute();
+                        if(backgroundHandler!=null)
+                        {
+                            isReady = false;
+                            Message msg = new Message();
+                            msg.What = 100;
+                            msg.Obj = yuvImage;
+                            backgroundHandler.SendMessage(msg);
+                        }
+                            
                     }
                 }
-                catch (System.Exception exp)
+                catch (BarcodeReaderException e)
                 {
-                    Message msg = new Message();
-                    msg.What = 0x001;
-                    msg.Obj = "except";
-                    myHandler.SendMessage(msg);
-
+                    e.PrintStackTrace();
                 }
-               
 
             }
             catch (System.IO.IOException)
@@ -221,13 +231,27 @@ namespace CameraDemo
         
         public void SurfaceDestroyed(ISurfaceHolder holder)
         {
-            holder.RemoveCallback(this);
-            camera.SetPreviewCallback(null);
-            camera.StopPreview();
-            camera.Release();
-            camera = null;
+           
 
+            holder.RemoveCallback(this);
+            if (camera != null)
+            {
+                camera.SetPreviewCallback(null);
+                camera.StopPreview();
+                camera.Release();
+                camera = null;
+            }
+            if (handlerThread != null)
+            {
+                handlerThread.QuitSafely();
+                handlerThread.Join();
+                handlerThread = null;
+            }
+            backgroundHandler = null;
+            
+            
         }
+        
 
         private void RequestCameraPermission()
         {
@@ -243,15 +267,61 @@ namespace CameraDemo
             }
         }
 
+     
         
         class MyHandler : Handler
         {
+            public MyHandler():base()
+            {
+              
+            }
+            public MyHandler(Looper looper) : base(looper)
+            {
+
+            }
+
             public override void HandleMessage(Message msg)
             {
-                isReady = true;
-                tv_text.Text = msg.Obj.ToString();
-                
+                if(msg.What == 100)
+                {
+                    Message msg1 = new Message();
+                    msg1.What = 200;
+                    msg1.Obj = "";
+                    try
+                    {
+                        YuvImage image = (YuvImage)msg.Obj;
+                        if (image != null)
+                        {
+                            int[] stridelist = image.GetStrides();
+                            TextResult[] text = barcodeReader.DecodeBuffer(image.GetYuvData(), previewWidth, previewHeight, stridelist[0], EnumImagePixelFormat.IpfNv21, "");
+                            if (text != null && text.Length > 0)
+                            {
+                                for (int i = 0; i < text.Length; i++)
+                                {
+                                    if (i == 0)
+                                        msg1.Obj = "Code[1]: " + text[0].BarcodeText;
+                                    else msg1.Obj = msg1.Obj + "\n\n" + "Code[" + (i + 1) + "]: " + text[i].BarcodeText;
+                                }
+                            }
+                        }
+                    }
+                    catch (BarcodeReaderException e)
+                    {                        
+                        msg1.Obj = "";
+                        e.PrintStackTrace();
+                    }
+                   
+                    isReady = true;
+                    myHandler.SendMessage(msg1);
+                    
+                }
+                else if(msg.What == 200)
+                {
+                    tv_text.Text = msg.Obj.ToString();
+                    //System.Console.WriteLine("end update UI");
+                }
             }
+           
         }
 
 
