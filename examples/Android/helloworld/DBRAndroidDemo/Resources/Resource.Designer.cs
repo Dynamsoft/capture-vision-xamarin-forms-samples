@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("DBRDroidDemo.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("DBRAndroidDemo.Resource", IsApplication=true)]
 
-namespace DBRDroidDemo
+namespace DBRAndroidDemo
 {
 	
 	
