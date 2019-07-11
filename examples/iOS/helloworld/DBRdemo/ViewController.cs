@@ -37,7 +37,7 @@ namespace DBRdemo
             {
                 Foundation.NSError error = new Foundation.NSError();
                 DynamsoftBarcodeReader barcodeReader = new DynamsoftBarcodeReader("");
-                TextResult[] result = barcodeReader.DecodeImage(qrimage.Image, "", out error);
+                iTextResult[] result = barcodeReader.DecodeImage(qrimage.Image, "", out error);
                 label.Text = result[0].BarcodeText;
                 readBtn.SetTitle("Reset", UIControlState.Normal);
             }
