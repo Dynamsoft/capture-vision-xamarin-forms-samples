@@ -15,7 +15,7 @@ namespace CameraDemo
         public Action update;
         public string result;
         private DynamsoftBarcodeReader barcodeReader = new DynamsoftBarcodeReader("t0068MgAAABlOih7jbq10NbpqRczC1hLLu/qZsLWkVW0KBu7u/wruw4zcQXlnIMAWCZ/5cnA/JTRvQ4h+syYnev0wYNWAfX8=");
-        private TextResult[] results;
+        private iTextResult[] results;
         private NSError error;
         private bool ready = true;
         private DispatchQueue queue = new DispatchQueue("ReadTask",true);
