@@ -102,9 +102,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\rqcode.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\QRcode.png" />
   </ItemGroup>
   <ItemGroup />
