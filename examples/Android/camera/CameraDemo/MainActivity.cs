@@ -130,7 +130,10 @@ namespace CameraDemo
             Android.Hardware.Camera.Parameters parameters = camera.GetParameters();
             parameters.PictureFormat = ImageFormatType.Jpeg;
             parameters.PreviewFormat = ImageFormatType.Nv21;
-            parameters.FocusMode = Android.Hardware.Camera.Parameters.FocusModeContinuousVideo;
+            if (parameters.SupportedFocusModes.Contains(Android.Hardware.Camera.Parameters.FocusModeContinuousVideo))
+            {
+                parameters.FocusMode = Android.Hardware.Camera.Parameters.FocusModeContinuousVideo;
+            }
             IList<Android.Hardware.Camera.Size> suportedPreviewSizes = parameters.SupportedPreviewSizes;
             int i = 0;
             for (i=0;i<suportedPreviewSizes.Count;i++)
