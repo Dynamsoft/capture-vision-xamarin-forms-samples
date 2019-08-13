@@ -45,4 +45,5 @@ Get the [trial license](https://www.dynamsoft.com/CustomerPortal/Portal/Triallic
         
 ## Note
 It came to our notice that when using Dynamsoft Barcode Reader SDK 7.0 version, the build of the application would fail. Such an issue could result from a bug in Xamarin platform, which could be viewed via here, https://developercommunity.visualstudio.com/content/problem/595665/systemnotsupportedexception-exception-occurs-when.html.
+
 To solve such an issue, a new version, Commercial Xamarin Android 9.4(d16-2) Preview for Windows+Visual Studio 2019 Preview, has been published by Microsoft, which can be downloaded via here, https://github.com/xamarin/xamarin-android. The new version is compatible with VS2017 and VS2019, but there could be an instability issue using VS2017, so VS2019 is recommended. With the fixed version installed, the build would succeed.
