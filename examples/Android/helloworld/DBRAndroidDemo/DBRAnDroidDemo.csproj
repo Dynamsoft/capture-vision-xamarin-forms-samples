@@ -98,7 +98,7 @@
   <ItemGroup>
     <PackageReference Include="Xamarin.Android.Support.Design" Version="27.0.2" />
     <PackageReference Include="Xamarin.Dynamsoft.Barcode.Android">
-      <Version>6.4.1</Version>
+      <Version>7.1.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
