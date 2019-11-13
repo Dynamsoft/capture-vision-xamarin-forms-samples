@@ -18,13 +18,13 @@ Get the [trial license](https://www.dynamsoft.com/CustomerPortal/Portal/Triallic
 - [Xamarin.Dynamsoft.Barcode.Android](https://www.nuget.org/packages/Xamarin.Dynamsoft.Barcode.Android/)
 
     ```
-    PM> Install-Package Xamarin.Dynamsoft.Barcode.Android -Version 7.1.0
+    PM> Install-Package Xamarin.Dynamsoft.Barcode.Android -Version 7.2.1
     ```
 
 - [Xamarin.Dynamsoft.Barcode.iOS](https://www.nuget.org/packages/Xamarin.Dynamsoft.Barcode.iOS/)
 
     ```
-    PM> Install-Package Xamarin.Dynamsoft.Barcode.iOS -Version 7.1.0
+    PM> Install-Package Xamarin.Dynamsoft.Barcode.iOS -Version 7.2.1
     ```
 
 ## HowTo
