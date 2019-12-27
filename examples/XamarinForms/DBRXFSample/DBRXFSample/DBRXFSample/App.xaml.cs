@@ -1,6 +1,8 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using DBRXFSample.Interfaces;
+
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace DBRXFSample
@@ -28,5 +30,10 @@ namespace DBRXFSample
         {
             // Handle when your app resumes
         }
+
+        /// <summary>
+        /// The Capture UI Handler.
+        /// </summary>
+        public static ICaptureUI CurrentCaptureUI { get; set; }
     }
 }

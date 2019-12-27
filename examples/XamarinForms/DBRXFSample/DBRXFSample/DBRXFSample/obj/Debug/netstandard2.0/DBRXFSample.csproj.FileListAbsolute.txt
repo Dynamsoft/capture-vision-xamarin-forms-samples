@@ -1,0 +1,16 @@
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\bin\Debug\netstandard2.0\DBRXFSample.deps.json
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\bin\Debug\netstandard2.0\DBRXFSample.dll
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\bin\Debug\netstandard2.0\DBRXFSample.pdb
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\bin\Debug\netstandard2.0\System.Drawing.Common.dll
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\bin\Debug\netstandard2.0\System.Drawing.Common.pdb
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\obj\Debug\netstandard2.0\DBRXFSample.Properties.Resources.resources
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\obj\Debug\netstandard2.0\DBRXFSample.csproj.GenerateResource.cache
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\obj\Debug\netstandard2.0\App.xaml.g.cs
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\obj\Debug\netstandard2.0\MainPage.xaml.g.cs
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\obj\Debug\netstandard2.0\DBRXFSample.AssemblyInfoInputs.cache
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\obj\Debug\netstandard2.0\DBRXFSample.AssemblyInfo.cs
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\obj\Debug\netstandard2.0\XamlC.stamp
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\obj\Debug\netstandard2.0\DBRXFSample.csproj.CopyComplete
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\obj\Debug\netstandard2.0\DBRXFSample.dll
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\obj\Debug\netstandard2.0\DBRXFSample.pdb
+C:\Users\Bob\Desktop\xamarin-master\examples\XamarinForms\DBRXFSample\DBRXFSample\DBRXFSample\obj\Debug\netstandard2.0\DBRXFSample.csprojAssemblyReference.cache
