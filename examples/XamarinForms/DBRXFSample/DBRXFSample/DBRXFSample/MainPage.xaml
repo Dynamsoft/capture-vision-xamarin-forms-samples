@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:DBRXFSample"
+             xmlns:controls="clr-namespace:DBRXFSample.Controls"
              x:Class="DBRXFSample.MainPage">
-
-    <StackLayout>
-        <!-- Place new controls here -->
-        <Image x:Name="image"
-               Source="qr.PNG" />
-        <Label x:Name="label"
-           Text="BBRSample for Xamarin.Forms" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
-        <Button x:Name="btn"
-            Text="Read" 
-            Clicked="OnBtnReadClick" />
-    </StackLayout>
-
+    
+    <Grid
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
+        <controls:CaptureUI x:Name="Capture"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand" />
+        <Image Source="scannerbox" HorizontalOptions="Center" VerticalOptions="Center"/>
+        <Label Text="DBR Is Scanning Continuously" TextColor="#FF4646" FontSize="18" HorizontalOptions="Center" Margin="0,100,0,0" />
+        <StackLayout
+        HorizontalOptions="Center" 
+        Margin="10,480,10,0" 
+        VerticalOptions="Fill">
+            <Button x:Name="flash" ImageSource="flashon" HorizontalOptions="Center" WidthRequest="50" HeightRequest="50" 
+                Clicked="flash_Clicked" />
+            <Label x:Name="label" Text="{Binding Instruction}" TextColor="#000000" BackgroundColor="#7F999999"/>
+        </StackLayout>
+    </Grid>
 </ContentPage>

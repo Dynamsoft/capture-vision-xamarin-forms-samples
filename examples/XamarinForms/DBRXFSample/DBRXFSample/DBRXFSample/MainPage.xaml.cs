@@ -4,38 +4,72 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using System.Threading;
+using DBRXFSample.Interfaces;
+using DBRXFSample.ViewModels;
+using Xamarin.Forms.Xaml;
 
 namespace DBRXFSample
 {
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : ContentPage
     {
-        private bool haveRead = false;
         public MainPage()
         {
             InitializeComponent();
-            label.HorizontalTextAlignment = TextAlignment.Center;
+            //NavigationPage.SetHasNavigationBar(this, false);
+            Viewmodel = new CaptureViewModel();
+            BindingContext = Viewmodel;
+        }
+        protected override void OnAppearing()
+        {
+            CaptureHandler = App.CurrentCaptureUI;
+
+            Task.Delay(TimeSpan.FromSeconds(0.5)).ContinueWith(t =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Setup();
+                });
+            });
+            base.OnAppearing();
         }
 
-        void OnBtnReadClick(object sender, EventArgs args)
+        public void Setup()
         {
-            if (haveRead)
+            if (CaptureHandler != null)
             {
-                label.Text = "";
-                btn.Text = "Read";
-                haveRead = false;
+                // Start the Capture Session.
+                if (!CaptureHandler.GetSessionActive())
+                {
+                    CaptureHandler.StartSession();
+                }
             }
-            else
-            {
-                var postMan = DependencyService.Get<IPostMan>();
-                label.Text = postMan.getResult();
-                btn.Text = "Clear";
-                haveRead = true;
-            }
+            Viewmodel.StartCaptureSequence();
         }
-    }
-    
-    public interface IPostMan
-    {
-        string getResult();
+        /// <summary>
+        /// The Viewmodel.
+        /// </summary>
+        private CaptureViewModel Viewmodel { get; }
+
+        /// <summary>
+        /// The Handler for the Native CaptureUI control.
+        /// </summary>
+        private ICaptureUI CaptureHandler { get; set; }
+
+        private bool isflash = false;
+        private void flash_Clicked(object sender, EventArgs e)
+        {
+            CaptureHandler.onClickFlash();
+            if (!isflash)
+            {
+                flash.ImageSource = "flashoff.png";
+            }
+            else 
+            {
+                flash.ImageSource = "flashon.png";
+            }
+            isflash = !isflash;
+        }
     }
 }
