@@ -1,6 +1,6 @@
 # Xamarin Barcode Reader SDK
 
-Version 7.1.0
+Version 7.4.0
 
 The repository aims to help developers build **Android** and **iOS** barcode apps with Dynamsoft Xamarin Barcode Reader SDK.
 
