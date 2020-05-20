@@ -1,15 +1,18 @@
-## How to use Xamarin demo
+## How to set the license in the DBR Xamarin samples
 
-**Purchased license:**
+### iOS:
+**trial license:**
+```
+DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("put your trial license here");
+```
 
-### iOS : add `IDBRServerLicenseVerificationDelegate` interface, and Implement it.
-
+**full license:**
 ```
 public class CaptureUI : IDBRServerLicenseVerificationDelegate
 {
     ...
     ...
-    DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("", "replace your license here", Self);
+    DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("", "put your purchased license here", Self);
     ...
     void IDBRServerLicenseVerificationDelegate.Error(bool isSuccess, NSError error)
     {
@@ -24,19 +27,24 @@ public class CaptureUI : IDBRServerLicenseVerificationDelegate
 }
 ```
 
-### Android : add `IDBRServerLicenseVerificationListener` interface, and Implement it.
+### Android: 
 
+**trial license:**
+```
+BarcodeReader reader = new BarcodeReader("put your trial license here");
+```
+
+**full license:**
 ```
 public class MainActivity: IDBRServerLicenseVerificationListener
 {
     ...
     ...
-    BarcodeReader reader = new BarcodeReader("");
     protected override void OnCreate(Bundle savedInstanceState)	
     {
         base.OnCreate(savedInstanceState);
 
-        reader = new BarcodeReader("");
+        BarcodeReader reader = new BarcodeReader("");
         MainActivity main = new MainActivity();
         reader.InitLicenseFromServer("","replace your license key here",main);
     }
