@@ -8,10 +8,10 @@ DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("put your trial licen
 
 **full license:**
 ```
-public class CaptureUI : IDBRServerLicenseVerificationDelegate
+public class CaptureOutput : IDBRServerLicenseVerificationDelegate
 {
     ...
-    ...
+    //Declare inside the function
     DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("", "put your purchased license here", Self);
     ...
     void IDBRServerLicenseVerificationDelegate.Error(bool isSuccess, NSError error)
