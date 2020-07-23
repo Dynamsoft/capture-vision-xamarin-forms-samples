@@ -24,8 +24,7 @@ Get the [trial license](https://www.dynamsoft.com/CustomerPortal/Portal/Triallic
 - [Xamarin.Dynamsoft.Barcode.iOS](https://www.nuget.org/packages/Xamarin.Dynamsoft.Barcode.iOS/)
 
     ```
-    PM> Install-Package Xamarin.Dynamsoft.Barcode.iOS -Version 7.5.0
-    ```
+    PM> Install-Package Xamarin.Dynamsoft.Barcode.iOS -Version 7.5.0    ```
 
 ## HowTo
 1. Import examples to **Visual Studio**.
