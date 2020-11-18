@@ -9,7 +9,7 @@ using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
-using Com.Dynamsoft.Barcode;
+using Com.Dynamsoft.Dbr;
 using DBRXFSample.Droid;
 using DBRXFSample.Interfaces;
 using static Android.Hardware.Camera;
@@ -90,7 +90,7 @@ namespace DBRXFSample.Droid
         private ImageButton flahBtn;
         private Android.Hardware.Camera camera;
 
-        private static BarcodeReader barcodeReader = new BarcodeReader("t0068MgAAACm/O50JQCeJC5TJTNpXrUs4Do3MPzQxK0CvQvCGslylduMz/icYA3lAmVbE7NYhTFM60BRpW3QUav1sP6MWdZo=");
+        private static BarcodeReader barcodeReader = new BarcodeReader("t0068MgAAAByo0OdFR2KWLO5/rjTOorKni0BLRFwoXKdjNhJVOziu1tC6OG3+qWQpJYRcnSOT6AR+6OJDeXwKTc79buYbtDY=");
         private static MyHandler myHandler = new MyHandler();
         private static int previewWidth;
         private static int previewHeight;
