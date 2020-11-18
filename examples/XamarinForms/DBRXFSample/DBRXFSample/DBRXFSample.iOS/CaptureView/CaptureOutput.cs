@@ -14,7 +14,7 @@ namespace DBRXFSample.iOS.CaptureView
 {
     class CaptureOutput : AVCaptureVideoDataOutputSampleBufferDelegate
     {
-        private DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("t0068MgAAAEMKwCG/nGtAHejYbWgJH1sqDrUEhjbY2iIPP+rd//VnS2xWkcqSLMF3cxKetujwrYi4MxyyYl2qim4I1KKY3tk=");
+        private DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("t0068MgAAAByo0OdFR2KWLO5/rjTOorKni0BLRFwoXKdjNhJVOziu1tC6OG3+qWQpJYRcnSOT6AR+6OJDeXwKTc79buYbtDY=");
         public Action update;
         private bool ready = true;
         private DispatchQueue queue = new DispatchQueue("ReadTask", true);
