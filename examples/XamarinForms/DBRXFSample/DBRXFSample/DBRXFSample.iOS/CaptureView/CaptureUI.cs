@@ -64,7 +64,7 @@ namespace DBRXFSample.iOS.CaptureView
 
             //set an interval > 0, the unit is seconds
             //During this time, there will be no duplicate barcodes
-            camera.setDuplicateBarcocdesFilter(1);
+            camera.setDuplicateBarcodesFilter(1);
 
             //set an interval [0, 5]
             //t = 0: Continuous
