@@ -1,312 +1,125 @@
-﻿using System;
-using System.Collections.Generic;
-using Android;
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
-using Android.Support.V4.App;
-using Android.Views;
 using Android.Widget;
 using Com.Dynamsoft.Dbr;
+using Com.Dynamsoft.Camera.View;
+using Com.Dynamsoft.Camera.Option;
+using Com.Dynamsoft.Camera.Listener;
 using DBRXFSample.Droid;
 using DBRXFSample.Interfaces;
-using static Android.Hardware.Camera;
+//using Com.Dynamsoft.Camera.Entity;
 
 [assembly: Xamarin.Forms.Dependency(typeof(MainActivity))]
+[assembly: Xamarin.Forms.ExportRenderer(typeof(DBRXFSample.Controls.CaptureUI), typeof(MainActivity))]
 namespace DBRXFSample.Droid
 {
     [Activity(Label = "DBRXFSample", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity, ISurfaceHolderCallback, IPreviewCallback, ICaptureUI, ActivityCompat.IOnRequestPermissionsResultCallback
+    public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IResultListener, ICaptureUI
     {
-        public void OnPreviewFrame(byte[] data, Android.Hardware.Camera camera)
-        {
-            try
-            {
-                Console.WriteLine("start create Image");
-                yuvImage = new YuvImage(data, ImageFormatType.Nv21,
-                        previewWidth, previewHeight, null);
-                stride = yuvImage.GetStrides();
-                try
-                {
-                    if (isReady)
-                    {
-                        if (backgroundHandler != null)
-                        {
-                            isReady = false;
-                            Message msg = new Message();
-                            msg.What = 100;
-                            msg.Obj = yuvImage;
-                            backgroundHandler.SendMessage(msg);
-                            backgroundHandler.Post(() =>
-                            {
-                                tvResult.Text = result;
-                            });
-                        }
-                    }
-                }
-                catch (BarcodeReaderException e)
-                {
-                    e.PrintStackTrace();
-                }
-            }
-            catch (System.IO.IOException)
-            {
-            }
-        }
 
-        public void SurfaceChanged(ISurfaceHolder holder, [GeneratedEnum] Format format, int width, int height)
-        {
-            //throw new NotImplementedException();
-        }
-
-        public void SurfaceCreated(ISurfaceHolder holder)
-        {
-            OpenCamera();
-        }
-
-        public void SurfaceDestroyed(ISurfaceHolder holder)
-        {
-            holder.RemoveCallback(this);
-            if (camera != null)
-            {
-                camera.SetPreviewCallback(null);
-                camera.StopPreview();
-                camera.Release();
-                camera = null;
-            }
-            if (handlerThread != null)
-            {
-                handlerThread.QuitSafely();
-                handlerThread.Join();
-                handlerThread = null;
-            }
-            backgroundHandler = null;
-        }
-
-        private SurfaceView surface = null;
         private TextView tvResult = null;
-        private ImageButton flahBtn;
-        private Android.Hardware.Camera camera;
-
-        private static BarcodeReader barcodeReader = new BarcodeReader("t0068MgAAAByo0OdFR2KWLO5/rjTOorKni0BLRFwoXKdjNhJVOziu1tC6OG3+qWQpJYRcnSOT6AR+6OJDeXwKTc79buYbtDY=");
-        private static MyHandler myHandler = new MyHandler();
+        private ImageButton flashBtn;
+        private Com.Dynamsoft.Camera.Entity.Camera camera;
+        private static BarcodeReader barcodeReader = new BarcodeReader("put your license here");
         private static int previewWidth;
         private static int previewHeight;
         private static YuvImage yuvImage;
         private static int[] stride;
         private static bool isReady = true;
         private static bool fromBack = false;
-        public const int REQUEST_CAMERA_PERMISSION = 1;
-        private HandlerThread handlerThread;
-
-        private MyHandler backgroundHandler;
         private static string result;
         private bool flashOn;
+        public static Android.Content.Context context;
+        public string resultStr;
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            CameraView cameraView;
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.content_main);
-            surface = FindViewById<SurfaceView>(Resource.Id.sv_surfaceView);
             tvResult = FindViewById<TextView>(Resource.Id.tv_result);
+            cameraView = FindViewById<CameraView>(Resource.Id.camera_view);
             tvResult.MovementMethod = Android.Text.Method.ScrollingMovementMethod.Instance;
-            var holder = surface.Holder;
-            holder.AddCallback(this);
 
+            context = this;
+            camera = new Com.Dynamsoft.Camera.Entity.Camera(this);
+            camera.SetBarcodeReader(barcodeReader);//bind barcodereader and camera
+            camera.AddCameraView(cameraView);//bind view and camera
+            camera.SetEnableBeepSound(true);//enable beepsound
+            cameraView.AddOverlay();//enable overlay
+            camera.AddResultListener(this);
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
             App.CurrentCaptureUI = this;
+            LoadApplication(new App());
             flashOn = false;
-            flahBtn = FindViewById<ImageButton>(Resource.Id.flahBtn);
-            flahBtn.Click += delegate
+            flashBtn = FindViewById<ImageButton>(Resource.Id.flashBtn);
+            flashBtn.Click += delegate
             {
                 if (camera == null)
                     return;
-
-                Parameters parameters = camera.GetParameters();
                 if (!flashOn)
                 {
-                    parameters.FlashMode = Parameters.FlashModeTorch;
-                    flahBtn.SetImageResource(Resource.Drawable.flashoff);
+                    camera.TorchDesiredState = TorchState.TorchStateOn;
                     flashOn = true;
                 }
+
                 else
                 {
-                    parameters.FlashMode = Parameters.FlashModeOff;
-                    flahBtn.SetImageResource(Resource.Drawable.flashon);
+                    camera.TorchDesiredState = TorchState.TorchStateOff;
                     flashOn = false;
                 }
-                camera.SetParameters(parameters);
             };
         }
 
         protected override void OnResume()
         {
             base.OnResume();
-            if (fromBack)
-            {
-                surface.Holder.AddCallback(this);
-                fromBack = false;
-            }
+            fromBack = false;
+            camera.CameraDesireState = CameraState.CameraStateOn;//open camera and start scanning
         }
 
         protected override void OnPause()
         {
             fromBack = true;
+            camera.CameraDesireState = CameraState.CameraStateOff;//close camera and stop scanning
             base.OnPause();
         }
 
-        private void RequestCameraPermission()
+        void IResultListener.OnGetResult(TextResult[] p0, Frame p1)
         {
-            if (ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.Camera))
-            {
-                ActivityCompat.RequestPermissions(this, new string[] { Manifest.Permission.Camera }, MainActivity.REQUEST_CAMERA_PERMISSION);
-            }
-            else
-            {
-                ActivityCompat.RequestPermissions(this, new string[] { Manifest.Permission.Camera },
-                        REQUEST_CAMERA_PERMISSION);
-            }
-        }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
-        {
-            switch (requestCode)
+            RunOnUiThread(() =>
             {
-                case REQUEST_CAMERA_PERMISSION:
-                    if (grantResults.Length > 0 && grantResults[0] == Permission.Granted)
-                        OpenCamera();
-                    else
-                        Android.Widget.Toast.MakeText(ApplicationContext, "This App need permission to access camera.", Android.Widget.ToastLength.Long).Show();
-                    return;
-            }
-        }
-
-        private void OpenCamera()
-        {
-            if (CheckSelfPermission(Manifest.Permission.Camera) != Permission.Granted)
-            {
-                RequestCameraPermission();
-                return;
-            }
-
-            camera = Open();
-            Parameters parameters = camera.GetParameters();
-            parameters.PictureFormat = ImageFormatType.Jpeg;
-            parameters.PreviewFormat = ImageFormatType.Nv21;
-            if (parameters.SupportedFocusModes.Contains(Parameters.FocusModeContinuousVideo))
-            {
-                parameters.FocusMode = Parameters.FocusModeContinuousVideo;
-            }
-            IList<Size> suportedPreviewSizes = parameters.SupportedPreviewSizes;
-            int i = 0;
-            for (i = 0; i < suportedPreviewSizes.Count; i++)
-            {
-                if (suportedPreviewSizes[i].Width < 1300) break;
-            }
-            parameters.SetPreviewSize(suportedPreviewSizes[i].Width, suportedPreviewSizes[i].Height);
-            camera.SetParameters(parameters);
-            camera.SetDisplayOrientation(90);
-            camera.SetPreviewCallback(this);
-            camera.SetPreviewDisplay(surface.Holder);
-            camera.StartPreview();
-            //Get camera width
-            previewWidth = parameters.PreviewSize.Width;
-            //Get camera height
-            previewHeight = parameters.PreviewSize.Height;
-
-            //Resize SurfaceView Size
-            float scaledHeight = previewWidth * 1.0f * surface.Width / previewHeight;
-            float prevHeight = surface.Height;
-            ViewGroup.LayoutParams lp = surface.LayoutParameters;
-            lp.Width = surface.Width;
-            lp.Height = (int)scaledHeight;
-            surface.LayoutParameters = lp;
-            surface.Top = (int)((prevHeight - scaledHeight) / 2);
-            surface.DrawingCacheEnabled = true;
-
-            handlerThread = new HandlerThread("background");
-            handlerThread.Start();
-            //backgroundHandler = new MyHandler(handlerThread.Looper);
-            backgroundHandler = new MyHandler(Looper.MainLooper);
-        }
-        public bool GetSessionActive()
-        {
-            return true;
+                resultStr = p0[0].BarcodeText;
+                tvResult.Text = p0[0].BarcodeText;
+            });
         }
 
         public void StartSession()
         {
-            //throw new NotImplementedException();
         }
 
         public void StopSession()
         {
-            //throw new NotImplementedException();
         }
 
-        public void onClickFlash()
-        { 
+        public bool GetSessionActive()
+        {
+            return false;
         }
 
         public string GetResults()
         {
-            return result;
+            return resultStr;
         }
 
-        class MyHandler : Handler
+        public void onClickFlash()
         {
-            public MyHandler() : base()
-            {
-            }
-            public MyHandler(Looper looper) : base(looper)
-            {
-            }
-            public override void HandleMessage(Message msg)
-            {
-                if (msg.What == 100)
-                {
-                    Message msg1 = new Message();
-                    msg1.What = 200;
-                    msg1.Obj = "";
-                    try
-                    {
-                        YuvImage image = (YuvImage)msg.Obj;
-                        if (image != null)
-                        {
-                            int[] stridelist = image.GetStrides();
-                            TextResult[] text = barcodeReader.DecodeBuffer(image.GetYuvData(), previewWidth, previewHeight, stridelist[0], EnumImagePixelFormat.IpfNv21, "");
-                            if (text != null && text.Length > 0)
-                            {
-                                for (int i = 0; i < text.Length; i++)
-                                {
-                                    if (i == 0)
-                                        msg1.Obj = "Code[1]: " + text[0].BarcodeText;
-                                    else
-                                        msg1.Obj = msg1.Obj + "\n\n" + "Code[" + (i + 1) + "]: " + text[i].BarcodeText;
-                                }
-                            }
-                        }
-                    }
-                    catch (BarcodeReaderException e)
-                    {
-                        msg1.Obj = "";
-                        e.PrintStackTrace();
-                    }
-
-                    isReady = true;
-                    myHandler.SendMessage(msg1);
-
-                }
-                else if (msg.What == 200)
-                {
-                    result = msg.Obj.ToString();
-                }
-            }
         }
     }
 }

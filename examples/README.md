@@ -1,6 +1,29 @@
 ## How to set the license in the DBR Xamarin samples
 
 ### iOS:
+
+**DynamsoftBarcodeCamera:**
+
+```
+//if you need to beepsound while decoding, add file path here 
+camera = new DynamsoftBarcodeCamera(captureView, "pi.wav")
+{
+    //true: enable camera gets frames
+    //false: disable camera gets frames
+    IsEnable = true
+};
+camera.setEnableBeepSound(true);
+
+//set an interval > 0, the unit is seconds
+//During this time, there will be no duplicate barcodes
+camera.setDuplicateBarcocdesFilter(1);
+
+//set an interval (int)[0, 5]
+//t = 0: Continuous
+//t = [1, 5]: wait (t)s after each decode is completed
+camera.setContinuousScan(0);
+```
+
 **trial license:**
 ```
 DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("put your trial license here");

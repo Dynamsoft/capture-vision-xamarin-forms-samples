@@ -17,7 +17,7 @@ namespace DBRXFSample.ViewModels
         public void StartCaptureSequence()
         {
             CaptureHandler = App.CurrentCaptureUI;
-            Timer t = new Timer(500);
+            Timer t = new Timer(100);
             t.Elapsed += new ElapsedEventHandler(Timer_Tick);
             t.AutoReset = true;
             t.Enabled = true;

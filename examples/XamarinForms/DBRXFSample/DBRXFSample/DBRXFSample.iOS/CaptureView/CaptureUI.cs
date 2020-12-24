@@ -2,261 +2,112 @@
 using CoreGraphics;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using CoreVideo;
-
-using AVFoundation;
-using Foundation;
 using UIKit;
 using DBRXFSample.Interfaces;
-using CoreFoundation;
-using ObjCRuntime;
+using DBRiOS;
 
 [assembly: Dependency(typeof(DBRXFSample.iOS.CaptureView.CaptureUI))]
 [assembly: ExportRenderer(typeof(DBRXFSample.Controls.CaptureUI), typeof(DBRXFSample.iOS.CaptureView.CaptureUI))]
 namespace DBRXFSample.iOS.CaptureView
 {
-    public class CaptureUI : ViewRenderer, ICaptureUI
+    public class CaptureUI : ViewRenderer, ICaptureUI, IDBReaderListener//, IDBRServerLicenseVerificationDelegate
     {
-        public static bool OnDevice = Runtime.Arch == Arch.DEVICE;
-        private CaptureOutput captureOutput = new CaptureOutput();
-        private string result = "";
-        private bool flashOn = false;
-        private NSError error;
-        private AVCaptureDevice device = AVCaptureDevice.GetDefaultDevice(AVMediaTypes.Video);
-        AVCaptureVideoPreviewLayer videoPreviewLayer = new AVCaptureVideoPreviewLayer();
-
-        private AVCaptureSession captureSession = new AVCaptureSession
-        {
-            SessionPreset = AVCaptureSession.PresetHigh
-        };
-        private AVCaptureDeviceInput videoDeviceInput;
-        private AVCaptureVideoDataOutput videoDataOutput;
-        private UIView liveCameraStream;
-
-        /// <summary>
-        /// Determines if the Capture Session is active.
-        /// </summary>
-        public bool GetSessionActive()
-        {
-            return captureSession?.Running ?? false;
-        }
-        private const AVCaptureVideoOrientation VideoOrientation = AVCaptureVideoOrientation.Portrait;
-
-        /// <summary>
-        /// Communicate with the session and other session objects on this queue.
-        /// </summary>
-        private readonly DispatchQueue sessionQueue = new DispatchQueue("sessionqueue");
-
+        string textResults = "";
+        DBCaptureView captureView;
+        DynamsoftBarcodeCamera camera;
+        DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("put your license here");
         public CaptureUI()
         {
             App.CurrentCaptureUI = this;
         }
 
-        public override void LayoutSubviews()
+        public void barcodeReader(ReaderPackage reader, FramePackage frame)
         {
-            base.LayoutSubviews();
-            SetupUserInterface();
-            if (OnDevice)
+            //reader.error: DynamsoftBarcodeReader errors
+            //FramePackage: information about the frame decoding
+            if (reader.barcodeResults.Length > 0)
             {
-                AuthorizeCameraUse();
-
-                sessionQueue.DispatchAsync(() =>
-                {
-                    SetupSession();
-                    StartSession();
-                });
-            }
-            else
-            {
-                var heightScale = (double)9 / 16;
-                var vidHeight = NativeView.Frame.Width * heightScale;
-                var yPos = (NativeView.Frame.Height / 2) - (vidHeight / 2);
-
-                liveCameraStream.Frame = new CGRect(0f, yPos, NativeView.Bounds.Width, vidHeight);
-                liveCameraStream.BackgroundColor = UIColor.Clear;
-                liveCameraStream.Add(new UILabel(new CGRect(0f, 0f, NativeView.Bounds.Width, 20)) { Text = "The Emulator does not support Camera Usage.", TextColor = UIColor.White });
+                textResults = "Value: " + reader.barcodeResults[0].BarcodeText;
             }
         }
 
-        public async void AuthorizeCameraUse()
-        {
-            var authorizationStatus = AVCaptureDevice.GetAuthorizationStatus(AVMediaType.Video);
-
-            if (authorizationStatus != AVAuthorizationStatus.Authorized)
-            {
-                await AVCaptureDevice.RequestAccessForMediaTypeAsync(AVMediaType.Video);
-            }
-        }
-
-        public void SetupSession()
-        {
-            videoPreviewLayer.Session = captureSession;
-            videoPreviewLayer.Frame = liveCameraStream.Bounds;
-            liveCameraStream.Layer.AddSublayer(videoPreviewLayer);
-
-            var captureDevice = GetBackCamera();
-            ConfigureCameraForDevice(captureDevice);
-            NSError err;
-            videoDeviceInput = AVCaptureDeviceInput.FromDevice(captureDevice, out err);
-            videoDataOutput = new AVCaptureVideoDataOutput
-            {
-                AlwaysDiscardsLateVideoFrames = true
-            };
-            DispatchQueue queue = new DispatchQueue("dbrcameraQueue");
-            if (captureSession.CanAddInput(videoDeviceInput))
-            {
-                captureSession.AddInput(videoDeviceInput);
-                DispatchQueue.MainQueue.DispatchAsync(() =>
-                {
-                    var initialVideoOrientation = AVCaptureVideoOrientation.Portrait;
-                    var statusBarOrientation = UIApplication.SharedApplication.StatusBarOrientation;
-                    if (statusBarOrientation != UIInterfaceOrientation.Unknown)
-                    {
-                        AVCaptureVideoOrientation videoOrintation;
-                        if (Enum.TryParse(statusBarOrientation.ToString(), out videoOrintation))
-                        {
-                            initialVideoOrientation = videoOrintation;
-                        }
-                    }
-                    videoPreviewLayer.Connection.VideoOrientation = initialVideoOrientation;
-                });
-            }
-            else if (err != null)
-            {
-                Console.WriteLine($"Could not create video device input: {err}");
-                //this.setupResult = SessionSetupResult.ConfigurationFailed;
-                this.captureSession.CommitConfiguration();
-                return;
-            }
-            else
-            {
-                Console.WriteLine("Could not add video device input to the session");
-                //this.setupResult = SessionSetupResult.ConfigurationFailed;
-                this.captureSession.CommitConfiguration();
-                return;
-            }
-
-            if (captureSession.CanAddOutput(videoDataOutput))
-            {
-                captureSession.AddOutput(videoDataOutput);
-                captureOutput.update = ResetResults;
-
-                videoDataOutput.SetSampleBufferDelegateQueue(captureOutput, queue);
-                videoDataOutput.WeakVideoSettings = new NSDictionary<NSString, NSObject>(CVPixelBuffer.PixelFormatTypeKey, NSNumber.FromInt32((int)CVPixelFormatType.CV32BGRA));
-            }
-            else
-            {
-                Console.WriteLine("Could not add metadata output to the session");
-                //this.setupResult = SessionSetupResult.ConfigurationFailed;
-                captureSession.CommitConfiguration();
-
-                return;
-            }
-            captureSession.CommitConfiguration();
-        }
-
-        public AVCaptureDevice GetBackCamera()
-        {
-            var devices = AVCaptureDevice.DevicesWithMediaType(AVMediaType.Video);
-
-            foreach (var device in devices)
-            {
-                if (device.Position == AVCaptureDevicePosition.Back)
-                {
-                    return device;
-                }
-            }
-
-            return null;
-        }
-
-        public void ConfigureCameraForDevice(AVCaptureDevice device)
-        {
-            var error = new NSError();
-            if (device.IsFocusModeSupported(AVCaptureFocusMode.ContinuousAutoFocus))
-            {
-                device.LockForConfiguration(out error);
-                device.FocusMode = AVCaptureFocusMode.ContinuousAutoFocus;
-                device.UnlockForConfiguration();
-            }
-            else if (device.AutoFocusRangeRestrictionSupported)
-            {
-                device.LockForConfiguration(out error);
-                device.AutoFocusRangeRestriction = AVCaptureAutoFocusRangeRestriction.Near;
-                device.UnlockForConfiguration();
-            }
-        }
-
-        private void SetupUserInterface()
-        {
-            liveCameraStream = new UIView()
-            {
-                Frame = new CGRect(0f, 0f, NativeView.Bounds.Width, NativeView.Bounds.Height)
-            };
-
-            NativeView.Add(liveCameraStream);
-        }
-
-        /// <summary>
-        /// Starts the Capture Session.
-        /// </summary>
         public void StartSession()
         {
-            captureSession?.StartRunning();
+            //scan view with a CGRect
+            captureView = new DBCaptureView(new CGRect(0f, 0f, NativeView.Bounds.Width, NativeView.Bounds.Height));
+
+            //add overlay with stroke and fill color
+            captureView.AddOverlay(UIColor.Green.ColorWithAlpha(0.5f), UIColor.Green.ColorWithAlpha(0.5f));
+
+            UIImage off = new UIImage("flashoff.png");
+            UIImage on = new UIImage("flashon.png");
+            //add torch with images and its CGRect
+            captureView.AddTorch(off, on, new CGRect(NativeView.Bounds.Width / 2 - 25, 50, 50, 50));
+
+            //if you need to beepsound while decoding, add file path here 
+            camera = new DynamsoftBarcodeCamera(captureView, "pi.wav")
+            {
+                IsEnable = true //enable camera gets frames
+            };
+
+            camera.StartScanning();
+
+            camera.SetResolution(Resolution.Resolution1080P);
+
+            //bing DynamsoftBarcodeReader instance
+            camera.BindReader(reader);
+
+            //results callback
+            camera.AddDecodeListener(Self);
+
+            camera.setEnableBeepSound(true);
+
+            //set an interval > 0, the unit is seconds
+            //During this time, there will be no duplicate barcodes
+            camera.setDuplicateBarcocdesFilter(1);
+
+            //set an interval [0, 5]
+            //t = 0: Continuous
+            //t = [1, 5]: wait (t)s after each decode is completed
+            camera.setContinuousScan(0);
+            NativeView.AddSubview(captureView);
         }
 
-        /// <summary>
-        /// Stops the Capture Session.
-        /// </summary>
+        public bool GetSessionActive()
+        {
+            return false;
+        }
+
         public void StopSession()
         {
-            captureSession?.StopRunning();
+
         }
 
-        void ResetResults()
+        public string GetResults()
         {
-            result = captureOutput.result;
+            return textResults;
         }
 
-        string ICaptureUI.GetResults()
-        {
-            DispatchQueue.MainQueue.DispatchAsync(() =>
-            {
-                result = captureOutput.result;
-            });
-
-            return result;
-        }
-
-        /// <summary>
-        /// Cleanup the Resources.
-        /// </summary>
-        /// <param name="disposing">Is Disposing</param>
         protected override void Dispose(bool disposing)
         {
-            captureSession?.Dispose();
-            videoDeviceInput?.Dispose();
-            videoDataOutput.Dispose();
-
+            camera.StopScanning();
             base.Dispose(disposing);
         }
 
-        public void onClickFlash()
+        void ICaptureUI.onClickFlash()
         {
-            if (!flashOn)
-            {
-                device.LockForConfiguration(out error);
-                device.TorchMode = AVCaptureTorchMode.On;
-                device.UnlockForConfiguration();
-                flashOn = true;
-            }
-            else
-            {
-                device.LockForConfiguration(out error);
-                device.TorchMode = AVCaptureTorchMode.Off;
-                device.UnlockForConfiguration();
-                flashOn = false;
-            }
+
         }
+
+        //void IDBRServerLicenseVerificationDelegate.Error(bool isSuccess, NSError error)
+        //{
+        //    if (isSuccess)
+        //    {
+        //        Console.WriteLine("success");
+        //    }
+        //    else {
+        //        Console.WriteLine("error = " + error);
+        //    }
+        //}
     }
 }

@@ -15,7 +15,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
     <NuGetPackageImportStamp>
@@ -62,15 +61,15 @@
     <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter">
       <Version>28.0.0.3</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Dynamsoft.Barcode.Android">
-      <Version>7.2.2</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.v4" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.v7.CardView" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Forms">
       <Version>4.4.0.991265</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Dynamsoft.Barcode.Android">
+      <Version>8.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -109,7 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DBRXFSample\DBRXFSample.csproj">
-      <Project>{C14919E9-4EEA-44B8-9950-B73E0CA782B0}</Project>
+      <Project>{2886F9AC-55F6-422B-A1E0-F169178548A6}</Project>
       <Name>DBRXFSample</Name>
     </ProjectReference>
   </ItemGroup>

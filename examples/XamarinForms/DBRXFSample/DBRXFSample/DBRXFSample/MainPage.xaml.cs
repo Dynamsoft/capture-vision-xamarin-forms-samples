@@ -17,7 +17,7 @@ namespace DBRXFSample
         public MainPage()
         {
             InitializeComponent();
-            //NavigationPage.SetHasNavigationBar(this, false);
+            NavigationPage.SetHasNavigationBar(this, false);
             Viewmodel = new CaptureViewModel();
             BindingContext = Viewmodel;
         }
@@ -25,7 +25,7 @@ namespace DBRXFSample
         {
             CaptureHandler = App.CurrentCaptureUI;
 
-            Task.Delay(TimeSpan.FromSeconds(0.5)).ContinueWith(t =>
+            Task.Delay(TimeSpan.FromSeconds(0.1)).ContinueWith(t =>
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
@@ -57,19 +57,19 @@ namespace DBRXFSample
         /// </summary>
         private ICaptureUI CaptureHandler { get; set; }
 
-        private bool isflash = false;
-        private void flash_Clicked(object sender, EventArgs e)
-        {
-            CaptureHandler.onClickFlash();
-            if (!isflash)
-            {
-                flash.ImageSource = "flashoff.png";
-            }
-            else 
-            {
-                flash.ImageSource = "flashon.png";
-            }
-            isflash = !isflash;
-        }
+        //private bool isflash = false;
+        //private void flash_Clicked(object sender, EventArgs e)
+        //{
+        //    CaptureHandler.onClickFlash();
+        //    if (!isflash)
+        //    {
+        //        flash.ImageSource = "flashoff.png";
+        //    }
+        //    else 
+        //    {
+        //        flash.ImageSource = "flashon.png";
+        //    }
+        //    isflash = !isflash;
+        //}
     }
 }

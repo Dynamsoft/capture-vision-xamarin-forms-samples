@@ -10,14 +10,13 @@
         <controls:CaptureUI x:Name="Capture"
             HorizontalOptions="FillAndExpand"
             VerticalOptions="FillAndExpand" />
-        <Image Source="scannerbox" HorizontalOptions="Center" VerticalOptions="Center"/>
         <Label Text="DBR Is Scanning Continuously" TextColor="#FF4646" FontSize="18" HorizontalOptions="Center" Margin="0,100,0,0" />
         <StackLayout
         HorizontalOptions="Center" 
         Margin="10,480,10,0" 
         VerticalOptions="Fill">
-            <Button x:Name="flash" ImageSource="flashon" HorizontalOptions="Center" WidthRequest="50" HeightRequest="50" 
-                Clicked="flash_Clicked" />
+            <!--<Button x:Name="flash" ImageSource="flashon" HorizontalOptions="Center" WidthRequest="50" HeightRequest="50" 
+                Clicked="flash_Clicked" />-->
             <Label x:Name="label" Text="{Binding Instruction}" TextColor="#000000" BackgroundColor="#7F999999"/>
         </StackLayout>
     </Grid>
