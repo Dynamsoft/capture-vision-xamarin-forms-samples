@@ -34,7 +34,7 @@ public class CaptureOutput : IDBRServerLicenseVerificationDelegate
 BarcodeReader reader = new BarcodeReader("put your trial license here");
 ```
 
-**full license:**
+**full license for 7.x:**
 ```
 public class MainActivity: IDBRServerLicenseVerificationListener
 {
@@ -51,6 +51,38 @@ public class MainActivity: IDBRServerLicenseVerificationListener
     
     ...
     public void LicenseVerificationCallback(bool p0, Exception p1)
+    {
+        if (p0)
+        {
+            Console.WriteLine("success");
+        }
+        else {
+            Console.WriteLine("error = " + p1);
+        }
+    }
+}
+
+```
+**full license for 8.x:**
+```
+public class MainActivity: IDBRLTSLicenseVerificationListener
+{
+    ...
+    ...
+    protected override void OnCreate(Bundle savedInstanceState)	
+    {
+        base.OnCreate(savedInstanceState);
+
+        BarcodeReader reader = new BarcodeReader("");
+        MainActivity main = new MainActivity();
+        DMLTSConnectionParameters info = new DMLTSConnectionParameters();
+        info.HandshakeCode = "********";
+        //info.SessionPassword = "******";
+        reader.InitLicenseFromLTS(info, main);
+    }
+    
+    ...
+    void IDBRLTSLicenseVerificationListener.LTSLicenseVerificationCallback(bool p0, Java.Lang.Exception exception)
     {
         if (p0)
         {
