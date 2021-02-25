@@ -10,6 +10,7 @@ using UIKit;
 using DBRXFSample.Interfaces;
 using CoreFoundation;
 using ObjCRuntime;
+using DBRiOS;
 
 [assembly: Dependency(typeof(DBRXFSample.iOS.CaptureView.CaptureUI))]
 [assembly: ExportRenderer(typeof(DBRXFSample.Controls.CaptureUI), typeof(DBRXFSample.iOS.CaptureView.CaptureUI))]
@@ -139,6 +140,7 @@ namespace DBRXFSample.iOS.CaptureView
             if (captureSession.CanAddOutput(videoDataOutput))
             {
                 captureSession.AddOutput(videoDataOutput);
+                captureOutput.initLicense();
                 captureOutput.update = ResetResults;
 
                 videoDataOutput.SetSampleBufferDelegateQueue(captureOutput, queue);

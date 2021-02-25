@@ -65,7 +65,7 @@ namespace DBRXFSample
             {
                 flash.ImageSource = "flashoff.png";
             }
-            else 
+            else
             {
                 flash.ImageSource = "flashon.png";
             }

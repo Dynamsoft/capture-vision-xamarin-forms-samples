@@ -166,7 +166,7 @@
       <Version>2.0.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Dynamsoft.Barcode.iOS">
-      <Version>7.2.2</Version>
+      <Version>8.1.2</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="4.4.0.991265" />
   </ItemGroup>

@@ -9,12 +9,11 @@ using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
-using Com.Dynamsoft.Dbr;
+using Com.Dynamsoft.Barcode;
 using DBRXFSample.Droid;
 using DBRXFSample.Interfaces;
 using static Android.Hardware.Camera;
 
-[assembly: Xamarin.Forms.Dependency(typeof(MainActivity))]
 namespace DBRXFSample.Droid
 {
     [Activity(Label = "DBRXFSample", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -24,7 +23,6 @@ namespace DBRXFSample.Droid
         {
             try
             {
-                Console.WriteLine("start create Image");
                 yuvImage = new YuvImage(data, ImageFormatType.Nv21,
                         previewWidth, previewHeight, null);
                 stride = yuvImage.GetStrides();
@@ -41,7 +39,7 @@ namespace DBRXFSample.Droid
                             backgroundHandler.SendMessage(msg);
                             backgroundHandler.Post(() =>
                             {
-                                tvResult.Text = result;
+                                //tvResult.Text = result;
                             });
                         }
                     }
@@ -86,8 +84,6 @@ namespace DBRXFSample.Droid
         }
 
         private SurfaceView surface = null;
-        private TextView tvResult = null;
-        private ImageButton flahBtn;
         private Android.Hardware.Camera camera;
 
         private static BarcodeReader barcodeReader = new BarcodeReader("t0068MgAAAByo0OdFR2KWLO5/rjTOorKni0BLRFwoXKdjNhJVOziu1tC6OG3+qWQpJYRcnSOT6AR+6OJDeXwKTc79buYbtDY=");
@@ -110,39 +106,18 @@ namespace DBRXFSample.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.content_main);
-            surface = FindViewById<SurfaceView>(Resource.Id.sv_surfaceView);
-            tvResult = FindViewById<TextView>(Resource.Id.tv_result);
-            tvResult.MovementMethod = Android.Text.Method.ScrollingMovementMethod.Instance;
-            var holder = surface.Holder;
-            holder.AddCallback(this);
+            flashOn = false;
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.MatchParent);
+            surface = new SurfaceView(this);
+            layoutParams.Gravity = GravityFlags.CenterHorizontal;
+            surface.Holder.AddCallback(this);
+            AddContentView(surface, layoutParams);
 
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
             App.CurrentCaptureUI = this;
-            flashOn = false;
-            flahBtn = FindViewById<ImageButton>(Resource.Id.flahBtn);
-            flahBtn.Click += delegate
-            {
-                if (camera == null)
-                    return;
-
-                Parameters parameters = camera.GetParameters();
-                if (!flashOn)
-                {
-                    parameters.FlashMode = Parameters.FlashModeTorch;
-                    flahBtn.SetImageResource(Resource.Drawable.flashoff);
-                    flashOn = true;
-                }
-                else
-                {
-                    parameters.FlashMode = Parameters.FlashModeOff;
-                    flahBtn.SetImageResource(Resource.Drawable.flashon);
-                    flashOn = false;
-                }
-                camera.SetParameters(parameters);
-            };
         }
+
 
         protected override void OnResume()
         {
@@ -204,11 +179,23 @@ namespace DBRXFSample.Droid
             }
             IList<Size> suportedPreviewSizes = parameters.SupportedPreviewSizes;
             int i = 0;
+            float reqRatio = (float)surface.Height / surface.Width;
+            float curRatio, deltaRatio;
+            float deltaRatioMin = 10;
+            int sizeW = 0;
+            int sizeH = 0;
             for (i = 0; i < suportedPreviewSizes.Count; i++)
             {
-                if (suportedPreviewSizes[i].Width < 1300) break;
+                curRatio = ((float)suportedPreviewSizes[i].Width) / suportedPreviewSizes[i].Height;
+                deltaRatio = Math.Abs(reqRatio - curRatio);
+                if (deltaRatio < deltaRatioMin)
+                {
+                    deltaRatioMin = deltaRatio;
+                    sizeW = suportedPreviewSizes[i].Width;
+                    sizeH = suportedPreviewSizes[i].Height;
+                }
             }
-            parameters.SetPreviewSize(suportedPreviewSizes[i].Width, suportedPreviewSizes[i].Height);
+            parameters.SetPreviewSize(sizeW, sizeH);
             camera.SetParameters(parameters);
             camera.SetDisplayOrientation(90);
             camera.SetPreviewCallback(this);
@@ -218,7 +205,6 @@ namespace DBRXFSample.Droid
             previewWidth = parameters.PreviewSize.Width;
             //Get camera height
             previewHeight = parameters.PreviewSize.Height;
-
             //Resize SurfaceView Size
             float scaledHeight = previewWidth * 1.0f * surface.Width / previewHeight;
             float prevHeight = surface.Height;
@@ -228,10 +214,9 @@ namespace DBRXFSample.Droid
             surface.LayoutParameters = lp;
             surface.Top = (int)((prevHeight - scaledHeight) / 2);
             surface.DrawingCacheEnabled = true;
-
+            
             handlerThread = new HandlerThread("background");
             handlerThread.Start();
-            //backgroundHandler = new MyHandler(handlerThread.Looper);
             backgroundHandler = new MyHandler(Looper.MainLooper);
         }
         public bool GetSessionActive()
@@ -250,7 +235,22 @@ namespace DBRXFSample.Droid
         }
 
         public void onClickFlash()
-        { 
+        {
+            if (camera == null)
+                return;
+
+            Parameters parameters = camera.GetParameters();
+            if (!flashOn)
+            {
+                parameters.FlashMode = Parameters.FlashModeTorch;
+                flashOn = true;
+            }
+            else
+            {
+                parameters.FlashMode = Parameters.FlashModeOff;
+                flashOn = false;
+            }
+            camera.SetParameters(parameters);
         }
 
         public string GetResults()
