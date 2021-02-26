@@ -12,7 +12,7 @@ using CoreMedia;
 
 namespace DBRXFSample.iOS.CaptureView
 {
-    class CaptureOutput : AVCaptureVideoDataOutputSampleBufferDelegate, IDBRServerLicenseVerificationDelegate
+    class CaptureOutput : AVCaptureVideoDataOutputSampleBufferDelegate, IDBRServerLicenseVerificationDelegate //,IDMLTSLicenseVerificationDelegate
     {
         public DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("t0068MgAAAByo0OdFR2KWLO5/rjTOorKni0BLRFwoXKdjNhJVOziu1tC6OG3+qWQpJYRcnSOT6AR+6OJDeXwKTc79buYbtDY=");
         public Action update;
@@ -75,11 +75,17 @@ namespace DBRXFSample.iOS.CaptureView
 
         public void initLicense() {
             reader = new DynamsoftBarcodeReader("", "license key", Self);
+
+            //iDMLTSConnectionParameters parameters = new iDMLTSConnectionParameters();
+            //parameters.HandshakeCode = "******";
+            ////parameters.SessionPassword = "******";
+            //reader = new DynamsoftBarcodeReader(parameters, Self);
         }
 
         public void Error(bool isSuccess, NSError error)
         {
-            if (error != null) {
+            if (error != null)
+            {
                 Console.WriteLine("UserInfo:" + error.UserInfo);
             }
         }
