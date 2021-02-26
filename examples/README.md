@@ -6,7 +6,7 @@
 DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("put your trial license here");
 ```
 
-**full license:**
+**full license for 7.x:**
 ```
 public class CaptureOutput : IDBRServerLicenseVerificationDelegate
 {
@@ -14,14 +14,43 @@ public class CaptureOutput : IDBRServerLicenseVerificationDelegate
     //Declare inside the function
     DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("", "put your purchased license here", Self);
     ...
-    void IDBRServerLicenseVerificationDelegate.Error(bool isSuccess, NSError error)
+    public void Error(bool isSuccess, NSError error)
     {
         if (isSuccess)
         {
             Console.WriteLine("success");
         }
         else {
-            Console.WriteLine("error = " + error);
+            Console.WriteLine("error = " + error.UserInfo);
+        }
+    }
+}
+```
+
+**full license for 8.x:**
+```
+public class CaptureOutput : IDMLTSLicenseVerificationDelegate
+{
+    ...
+    DynamsoftBarcodeReader reader;
+    
+    //Declare inside the function
+    public void initLicense() {
+        iDMLTSConnectionParameters parameters = new iDMLTSConnectionParameters();
+        parameters.HandshakeCode = "******";
+        //parameters.SessionPassword = "******";
+        reader = new DynamsoftBarcodeReader(parameters, Self);
+    }
+    
+    ...
+    public void Error(bool isSuccess, NSError error)
+    {
+        if (isSuccess)
+        {
+            Console.WriteLine("success");
+        }
+        else {
+            Console.WriteLine("error : " + error.UserInfo);
         }
     }
 }

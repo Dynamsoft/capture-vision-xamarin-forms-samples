@@ -12,13 +12,13 @@ using CoreMedia;
 
 namespace DBRXFSample.iOS.CaptureView
 {
-    class CaptureOutput : AVCaptureVideoDataOutputSampleBufferDelegate
+    class CaptureOutput : AVCaptureVideoDataOutputSampleBufferDelegate, IDBRServerLicenseVerificationDelegate //,IDMLTSLicenseVerificationDelegate
     {
-        private DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("t0068MgAAAByo0OdFR2KWLO5/rjTOorKni0BLRFwoXKdjNhJVOziu1tC6OG3+qWQpJYRcnSOT6AR+6OJDeXwKTc79buYbtDY=");
+        public DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("t0068MgAAAByo0OdFR2KWLO5/rjTOorKni0BLRFwoXKdjNhJVOziu1tC6OG3+qWQpJYRcnSOT6AR+6OJDeXwKTc79buYbtDY=");
         public Action update;
         private bool ready = true;
         private DispatchQueue queue = new DispatchQueue("ReadTask", true);
-        private NSError error;
+        private NSError errorr;
         private nint bpr;
         private nint width;
         private nint height;
@@ -54,7 +54,7 @@ namespace DBRXFSample.iOS.CaptureView
                                           height,
                                           bpr,
                                           EnumImagePixelFormat.Argb8888,
-                                          "", out error);
+                                          "", out errorr);
             if (results != null && results.Length > 0)
             {
                 for (int i = 0; i < results.Length; i++)
@@ -71,6 +71,23 @@ namespace DBRXFSample.iOS.CaptureView
             }
             DispatchQueue.MainQueue.DispatchAsync(update);
             ready = true;
+        }
+
+        public void initLicense() {
+            reader = new DynamsoftBarcodeReader("", "license key", Self);
+
+            //iDMLTSConnectionParameters parameters = new iDMLTSConnectionParameters();
+            //parameters.HandshakeCode = "******";
+            ////parameters.SessionPassword = "******";
+            //reader = new DynamsoftBarcodeReader(parameters, Self);
+        }
+
+        public void Error(bool isSuccess, NSError error)
+        {
+            if (error != null)
+            {
+                Console.WriteLine("UserInfo:" + error.UserInfo);
+            }
         }
     }
 }
