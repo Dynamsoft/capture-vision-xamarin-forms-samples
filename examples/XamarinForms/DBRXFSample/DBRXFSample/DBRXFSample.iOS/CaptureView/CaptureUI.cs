@@ -16,7 +16,7 @@ using DBRiOS;
 [assembly: ExportRenderer(typeof(DBRXFSample.Controls.CaptureUI), typeof(DBRXFSample.iOS.CaptureView.CaptureUI))]
 namespace DBRXFSample.iOS.CaptureView
 {
-    public class CaptureUI : ViewRenderer, ICaptureUI
+    public class CaptureUI : ViewRenderer, ICaptureUI, IDBRServerLicenseVerificationDelegate//, IDMLTSLicenseVerificationDelegate
     {
         public static bool OnDevice = Runtime.Arch == Arch.DEVICE;
         private CaptureOutput captureOutput = new CaptureOutput();
@@ -33,6 +33,10 @@ namespace DBRXFSample.iOS.CaptureView
         private AVCaptureDeviceInput videoDeviceInput;
         private AVCaptureVideoDataOutput videoDataOutput;
         private UIView liveCameraStream;
+
+        private bool isinitWithLicenseKey = false;
+        private string licenseKey = "put your licenseKey here";
+        DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("put your license here");
 
         /// <summary>
         /// Determines if the Capture Session is active.
@@ -53,6 +57,41 @@ namespace DBRXFSample.iOS.CaptureView
             App.CurrentCaptureUI = this;
         }
 
+        private void InitLicenseKey()
+        {
+            reader = new DynamsoftBarcodeReader("", licenseKey, Self);
+
+            //dbr 8.x
+            //iDMLTSConnectionParameters parameters = new iDMLTSConnectionParameters();
+            //parameters.HandshakeCode = "******";
+            ////parameters.SessionPassword = "******";
+            //reader = new DynamsoftBarcodeReader(parameters, Self);
+        }
+
+        void IDBRServerLicenseVerificationDelegate.Error(bool isSuccess, NSError error)
+        {
+            if (error != null)
+            {
+                Console.WriteLine("UserInfo:" + error.UserInfo);
+            }
+        }
+
+        //void IDMLTSLicenseVerificationDelegate.Error(bool isSuccess, NSError error)
+        //{
+        //    if (isSuccess)
+        //    {
+        //        Console.WriteLine("UserInfo:" + error.UserInfo);
+        //    }
+        //}
+
+        protected override void OnElementChanged(ElementChangedEventArgs<View> e)
+        {
+            base.OnElementChanged(e);
+            if (isinitWithLicenseKey) {
+                InitLicenseKey();
+            }
+        }
+
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();
@@ -60,11 +99,9 @@ namespace DBRXFSample.iOS.CaptureView
             if (OnDevice)
             {
                 AuthorizeCameraUse();
-
                 sessionQueue.DispatchAsync(() =>
                 {
                     SetupSession();
-                    StartSession();
                 });
             }
             else
@@ -140,7 +177,7 @@ namespace DBRXFSample.iOS.CaptureView
             if (captureSession.CanAddOutput(videoDataOutput))
             {
                 captureSession.AddOutput(videoDataOutput);
-                captureOutput.initLicense();
+                captureOutput.reader = reader;
                 captureOutput.update = ResetResults;
 
                 videoDataOutput.SetSampleBufferDelegateQueue(captureOutput, queue);
