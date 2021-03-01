@@ -12,9 +12,9 @@ using CoreMedia;
 
 namespace DBRXFSample.iOS.CaptureView
 {
-    class CaptureOutput : AVCaptureVideoDataOutputSampleBufferDelegate, IDBRServerLicenseVerificationDelegate //,IDMLTSLicenseVerificationDelegate
+    class CaptureOutput : AVCaptureVideoDataOutputSampleBufferDelegate
     {
-        public DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("t0068MgAAAByo0OdFR2KWLO5/rjTOorKni0BLRFwoXKdjNhJVOziu1tC6OG3+qWQpJYRcnSOT6AR+6OJDeXwKTc79buYbtDY=");
+        public DynamsoftBarcodeReader reader;
         public Action update;
         private bool ready = true;
         private DispatchQueue queue = new DispatchQueue("ReadTask", true);
@@ -23,7 +23,7 @@ namespace DBRXFSample.iOS.CaptureView
         private nint width;
         private nint height;
         private NSData buffer;
-        public string result = "result";
+        public string result = "";
         private iTextResult[] results;
 
         public override void DidOutputSampleBuffer(AVCaptureOutput captureOutput, CMSampleBuffer sampleBuffer, AVCaptureConnection connection)
@@ -49,45 +49,31 @@ namespace DBRXFSample.iOS.CaptureView
 
         private void ReadTask()
         {
-            results = reader.DecodeBuffer(buffer,
+            if (reader.License != null)
+            {
+                results = reader.DecodeBuffer(buffer,
                                           width,
                                           height,
                                           bpr,
                                           EnumImagePixelFormat.Argb8888,
                                           "", out errorr);
-            if (results != null && results.Length > 0)
-            {
-                for (int i = 0; i < results.Length; i++)
+                if (results != null && results.Length > 0)
                 {
-                    if (i == 0)
-                        result = "Code[1]: " + results[0].BarcodeText;
-                    else
-                        result = result + "\n\n" + "Code[" + (i + 1) + "]: " + results[i].BarcodeText;
+                    for (int i = 0; i < results.Length; i++)
+                    {
+                        if (i == 0)
+                            result = "Code[1]: " + results[0].BarcodeText;
+                        else
+                            result = result + "\n\n" + "Code[" + (i + 1) + "]: " + results[i].BarcodeText;
+                    }
                 }
-            }
-            else
-            {
-                result = "";
+                else
+                {
+                    result = "";
+                }
             }
             DispatchQueue.MainQueue.DispatchAsync(update);
             ready = true;
-        }
-
-        public void initLicense() {
-            reader = new DynamsoftBarcodeReader("", "license key", Self);
-
-            //iDMLTSConnectionParameters parameters = new iDMLTSConnectionParameters();
-            //parameters.HandshakeCode = "******";
-            ////parameters.SessionPassword = "******";
-            //reader = new DynamsoftBarcodeReader(parameters, Self);
-        }
-
-        public void Error(bool isSuccess, NSError error)
-        {
-            if (error != null)
-            {
-                Console.WriteLine("UserInfo:" + error.UserInfo);
-            }
         }
     }
 }
