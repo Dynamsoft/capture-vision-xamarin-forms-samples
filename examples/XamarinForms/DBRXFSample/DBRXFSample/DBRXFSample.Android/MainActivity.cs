@@ -9,7 +9,7 @@ using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
-using Com.Dynamsoft.Barcode;
+using Com.Dynamsoft.Dbr;
 using DBRXFSample.Droid;
 using DBRXFSample.Interfaces;
 using static Android.Hardware.Camera;
