@@ -41,7 +41,10 @@ Get the [trial license](https://www.dynamsoft.com/CustomerPortal/Portal/Triallic
         - [helloworld](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/iOS/helloworld)
         - [camera](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/iOS/camera)
     - XamarinForms (Xamarin.Forms sample)
-        - [DBRXFSSample](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/XamarinForms/DBRXFSample)
+        - [DBRXFSSample](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/XamarinForms/DBRXFSample) 
+            
+            ![Xamarin.Forms barcode scanner](https://www.dynamsoft.com/codepool/img/2021/xamarin-forms-camera-barcode-scanner.jpg)
+        
         
 ## Note
 It came to our notice that when using Dynamsoft Barcode Reader SDK 7.0 version, the build of the application would fail. Such an issue could result from a bug in Xamarin platform, which could be viewed via here, https://developercommunity.visualstudio.com/content/problem/595665/systemnotsupportedexception-exception-occurs-when.html.
