@@ -34,7 +34,7 @@ namespace DBRXFSample.iOS.CaptureView
         private AVCaptureVideoDataOutput videoDataOutput;
         private UIView liveCameraStream;
 
-        private bool isinitWithLicenseKey = false;
+        private bool isinitWithLicenseKey = false; //set this to true when using InitLicenseKey()
         private string licenseKey = "put your licenseKey here";
         DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("put your license here");
 
