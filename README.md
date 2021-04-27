@@ -4,8 +4,9 @@ Version 8.1.2
 
 The repository aims to help developers build **Android** and **iOS** barcode apps with Dynamsoft Xamarin Barcode Reader SDK.
 
-## License
-Get the [trial license](https://www.dynamsoft.com/CustomerPortal/Portal/Triallicense.aspx).
+## What You Should Know
+- [![](https://img.shields.io/badge/Download-Offline%20SDK-orange)](https://www.dynamsoft.com/barcode-reader/downloads)
+- [![](https://img.shields.io/badge/Get-30--day%20FREE%20Trial%20License-blue)](https://www.dynamsoft.com/customer/license/trialLicense/?product=dbr)
 
 ## Contact Us
 <support@dynamsoft.com>
