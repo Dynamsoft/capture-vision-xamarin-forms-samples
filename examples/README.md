@@ -37,8 +37,8 @@ public class CaptureOutput : IDMLTSLicenseVerificationDelegate
     //Declare inside the function
     public void initLicense() {
         iDMLTSConnectionParameters parameters = new iDMLTSConnectionParameters();
-        parameters.HandshakeCode = "******";
-        //parameters.SessionPassword = "******";
+        parameters.organizationID  = "******";
+        //parameters.handshakeCode = "******";
         reader = new DynamsoftBarcodeReader(parameters, Self);
     }
     
@@ -105,8 +105,8 @@ public class MainActivity: IDBRLTSLicenseVerificationListener
         BarcodeReader reader = new BarcodeReader("");
         MainActivity main = new MainActivity();
         DMLTSConnectionParameters info = new DMLTSConnectionParameters();
-        info.HandshakeCode = "********";
-        //info.SessionPassword = "******";
+        info.organizationID = "********";
+        //info.handshakeCode = "******";
         reader.InitLicenseFromLTS(info, main);
     }
     
