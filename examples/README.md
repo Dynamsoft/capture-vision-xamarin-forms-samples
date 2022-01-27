@@ -2,12 +2,14 @@
 
 ### iOS:
 **trial license:**
+When using a long alpha-numeric trial license key, isinitWithLicenseKey should be set to false and the reader object should be initialized at the start as such:
 ```
 DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("put your trial license here");
 ```
 
 **full license for 7.x:**
-```
+If using DBR v7.x, the `licenseKey` variable should be set as the short 8-digit full license key. `isinitWithLicenseKey` should be set to true if this is the case.
+```csharp
 public class CaptureOutput : IDBRServerLicenseVerificationDelegate
 {
     ...
@@ -28,14 +30,15 @@ public class CaptureOutput : IDBRServerLicenseVerificationDelegate
 ```
 
 **full license for 8.x:**
-```
+When using DBR v8.x, `isinitWithLicenseKey` should be set to false so that the `InitLicenseKey` method is triggered. 
+```csharp
 public class CaptureOutput : IDMLTSLicenseVerificationDelegate
 {
     ...
     DynamsoftBarcodeReader reader;
     
     //Declare inside the function
-    public void initLicense() {
+    public void InitLicenseKey() {
         iDMLTSConnectionParameters parameters = new iDMLTSConnectionParameters();
         parameters.HandshakeCode = "******";
         //parameters.SessionPassword = "******";
