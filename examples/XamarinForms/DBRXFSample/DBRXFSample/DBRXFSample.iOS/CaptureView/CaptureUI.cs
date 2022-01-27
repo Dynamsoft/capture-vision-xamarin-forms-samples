@@ -16,7 +16,7 @@ using DBRiOS;
 [assembly: ExportRenderer(typeof(DBRXFSample.Controls.CaptureUI), typeof(DBRXFSample.iOS.CaptureView.CaptureUI))]
 namespace DBRXFSample.iOS.CaptureView
 {
-    public class CaptureUI : ViewRenderer, ICaptureUI, IDBRServerLicenseVerificationDelegate//, IDMLTSLicenseVerificationDelegate
+    public class CaptureUI : ViewRenderer, ICaptureUI, IDMLTSLicenseVerificationDelegate//, IDBRServerLicenseVerificationDelegate
     {
         public static bool OnDevice = Runtime.Arch == Arch.DEVICE;
         private CaptureOutput captureOutput = new CaptureOutput();
@@ -36,7 +36,7 @@ namespace DBRXFSample.iOS.CaptureView
 
         private bool isinitWithLicenseKey = false; //set this to true when using InitLicenseKey()
         private string licenseKey = "put your licenseKey here";
-        DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("put your license here");
+        DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("put your trial license here"); // initialize the reader object using this line if you are using a long alpha-numeric trial key
 
         /// <summary>
         /// Determines if the Capture Session is active.
@@ -59,30 +59,38 @@ namespace DBRXFSample.iOS.CaptureView
 
         private void InitLicenseKey()
         {
-            reader = new DynamsoftBarcodeReader("", licenseKey, Self);
+            // dbr 7.x
+            //reader = new DynamsoftBarcodeReader("", licenseKey, Self);
 
             //dbr 8.x
-            //iDMLTSConnectionParameters parameters = new iDMLTSConnectionParameters();
-            //parameters.HandshakeCode = "******";
-            ////parameters.SessionPassword = "******";
-            //reader = new DynamsoftBarcodeReader(parameters, Self);
+            iDMLTSConnectionParameters parameters = new iDMLTSConnectionParameters();
+            parameters.HandshakeCode = "******";
+            //parameters.OrganizationID = "******"; // This parameter can be used instead of HandshakeCode to set the license when using dbr v8.4 and above.
+            //parameters.SessionPassword = "******";
+            reader = new DynamsoftBarcodeReader(parameters, Self);
         }
 
-        void IDBRServerLicenseVerificationDelegate.Error(bool isSuccess, NSError error)
+        // The following function should be used when using DBR v7.x. If using DBR v8.x, IDMLTSLicenseVerificationDelegate should be used instead. 
+        /*void IDBRServerLicenseVerificationDelegate.Error(bool isSuccess, NSError error)
         {
-            if (error != null)
+            if (isSuccess)
             {
+                Console.WriteLine("success");
+            }
+            else {
+                Console.WriteLine("error = " + error.UserInfo);
+            }
+        }*/
+
+        void IDMLTSLicenseVerificationDelegate.Error(bool isSuccess, NSError error)
+        {
+            if (isSuccess)
+            {
+                Console.WriteLine("Initialization Successful");
+            } else {
                 Console.WriteLine("UserInfo:" + error.UserInfo);
             }
         }
-
-        //void IDMLTSLicenseVerificationDelegate.Error(bool isSuccess, NSError error)
-        //{
-        //    if (isSuccess)
-        //    {
-        //        Console.WriteLine("UserInfo:" + error.UserInfo);
-        //    }
-        //}
 
         protected override void OnElementChanged(ElementChangedEventArgs<View> e)
         {
