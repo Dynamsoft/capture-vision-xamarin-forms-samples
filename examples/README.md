@@ -45,6 +45,7 @@ public class CaptureOutput : IDMLTSLicenseVerificationDelegate
         parameters.HandshakeCode = "******";
         //parameters.OrganizationID = "******"; // This parameter can be used instead of HandshakeCode to set the license when using dbr v8.4 and above.
         //parameters.SessionPassword = "******";
+
         reader = new DynamsoftBarcodeReader(parameters, Self);
     }
     ...
@@ -110,8 +111,8 @@ public class MainActivity: IDBRLTSLicenseVerificationListener
         BarcodeReader reader = new BarcodeReader("");
         MainActivity main = new MainActivity();
         DMLTSConnectionParameters info = new DMLTSConnectionParameters();
-        info.HandshakeCode = "********";
-        //info.SessionPassword = "******";
+        info.organizationID = "********";
+        //info.handshakeCode = "******";
         reader.InitLicenseFromLTS(info, main);
     }
     
