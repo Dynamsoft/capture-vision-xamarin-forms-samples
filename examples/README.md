@@ -2,7 +2,7 @@
 
 ### iOS:
 **trial license:**
-When using a long alpha-numeric trial license key, isinitWithLicenseKey should be set to false and the reader object should be initialized at the start as such:
+When using a long alpha-numeric trial license key, `isinitWithLicenseKey` should be set to false and the reader object should be initialized at the start as such:
 ```
 DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("put your trial license here");
 ```
@@ -13,10 +13,12 @@ If using DBR v7.x, the `licenseKey` variable should be set as the short 8-digit 
 public class CaptureOutput : IDBRServerLicenseVerificationDelegate
 {
     ...
-    //Declare inside the function
-    DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("", "put your purchased license here", Self);
+    public void InitLicenseKey(){
+        //Declare inside the function
+        DynamsoftBarcodeReader reader = new DynamsoftBarcodeReader("", "full license here", Self);
+    }
     ...
-    public void Error(bool isSuccess, NSError error)
+    void IDBRServerLicenseVerificationDelegate.Error(bool isSuccess, NSError error)
     {
         if (isSuccess)
         {
@@ -40,13 +42,14 @@ public class CaptureOutput : IDMLTSLicenseVerificationDelegate
     //Declare inside the function
     public void InitLicenseKey() {
         iDMLTSConnectionParameters parameters = new iDMLTSConnectionParameters();
-        parameters.organizationID  = "******";
-        //parameters.handshakeCode = "******";
+        parameters.HandshakeCode = "******";
+        //parameters.OrganizationID = "******"; // This parameter can be used instead of HandshakeCode to set the license when using dbr v8.4 and above.
+        //parameters.SessionPassword = "******";
+
         reader = new DynamsoftBarcodeReader(parameters, Self);
     }
-    
     ...
-    public void Error(bool isSuccess, NSError error)
+    void IDMLTSLicenseVerificationDelegate.Error(bool isSuccess, NSError error)
     {
         if (isSuccess)
         {
