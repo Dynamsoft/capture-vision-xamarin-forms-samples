@@ -1,6 +1,6 @@
 # Xamarin Barcode Reader SDK
 
-Version 8.1.2
+Version 8.9.3
 
 The repository aims to help developers build **Android** and **iOS** barcode apps with Dynamsoft Xamarin Barcode Reader SDK.
 
@@ -19,13 +19,13 @@ The repository aims to help developers build **Android** and **iOS** barcode app
 - [Xamarin.Dynamsoft.Barcode.Android](https://www.nuget.org/packages/Xamarin.Dynamsoft.Barcode.Android/)
 
     ```
-    PM> Install-Package Xamarin.Dynamsoft.Barcode.Android -Version 8.1.2
+    PM> Install-Package Xamarin.Dynamsoft.Barcode.Android -Version 8.9.3
     ```
 
 - [Xamarin.Dynamsoft.Barcode.iOS](https://www.nuget.org/packages/Xamarin.Dynamsoft.Barcode.iOS/)
 
     ```
-    PM> Install-Package Xamarin.Dynamsoft.Barcode.iOS -Version 8.1.2
+    PM> Install-Package Xamarin.Dynamsoft.Barcode.iOS -Version 8.9.3
     ```
 
 ## HowTo
