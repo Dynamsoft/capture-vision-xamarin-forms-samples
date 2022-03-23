@@ -62,7 +62,7 @@ namespace DBRXFSample.iOS.CaptureView
             // dbr 7.x
             //reader = new DynamsoftBarcodeReader("", licenseKey, Self);
 
-            //dbr 8.x
+            //dbr 8.x and 9.x
             iDMLTSConnectionParameters parameters = new iDMLTSConnectionParameters();
             parameters.HandshakeCode = "******";
             //parameters.OrganizationID = "******"; // This parameter can be used instead of HandshakeCode to set the license when using dbr v8.4 and above.

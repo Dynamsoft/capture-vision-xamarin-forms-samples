@@ -31,8 +31,8 @@ public class CaptureOutput : IDBRServerLicenseVerificationDelegate
 }
 ```
 
-**full license for 8.x:**
-When using DBR v8.x, `isinitWithLicenseKey` should be set to false so that the `InitLicenseKey` method is triggered. 
+**full license for 8.x and higher versions:**
+When using DBR v8.x or higher versions, `isinitWithLicenseKey` should be set to false so that the `InitLicenseKey` method is triggered. 
 ```csharp
 public class CaptureOutput : IDMLTSLicenseVerificationDelegate
 {
@@ -98,7 +98,7 @@ public class MainActivity: IDBRServerLicenseVerificationListener
 }
 
 ```
-**full license for 8.x:**
+**full license for 8.x and higher versions:**
 ```
 public class MainActivity: IDBRLTSLicenseVerificationListener
 {
