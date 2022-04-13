@@ -34,14 +34,14 @@ public class CaptureOutput : IDBRServerLicenseVerificationDelegate
 **full license for 8.x and higher versions:**
 When using DBR v8.x or higher versions, `isinitWithLicenseKey` should be set to false so that the `InitLicenseKey` method is triggered. 
 ```csharp
-public class CaptureOutput : IDMLTSLicenseVerificationDelegate
+public class CaptureOutput : IDMDLSLicenseVerificationDelegate
 {
     ...
     DynamsoftBarcodeReader reader;
     
     //Declare inside the function
     public void InitLicenseKey() {
-        iDMLTSConnectionParameters parameters = new iDMLTSConnectionParameters();
+        iDMDLSConnectionParameters parameters = new iDMDLSConnectionParameters();
         parameters.HandshakeCode = "******";
         //parameters.OrganizationID = "******"; // This parameter can be used instead of HandshakeCode to set the license when using dbr v8.4 and above.
         //parameters.SessionPassword = "******";
@@ -62,15 +62,17 @@ public class CaptureOutput : IDMLTSLicenseVerificationDelegate
 }
 ```
 
+> Note: In DBR 9, please note that the `iDMDLSConnectionParameters`, `IDMDLSLicenseVerificationDelegate`, `IDBRServerLicenseVerificationDelegate`, `initLicenseFromServer`, and `initLicenseFromDLS` are all officially deprecated but they should still be used in the Xamarin implmentation as the new `initLicense` method is still not included in the Xamarin package. (DBR 9 release notes: [iOS](https://www.dynamsoft.com/barcode-reader/programming/objectivec-swift/release-notes/ios-9.html?ver=latest) / [Android](https://www.dynamsoft.com/barcode-reader/programming/android/release-notes/android-9.html?ver=latest#900-03222022))
+
 ### Android: 
 
 **trial license:**
-```
+```java
 BarcodeReader reader = new BarcodeReader("put your trial license here");
 ```
 
 **full license for 7.x:**
-```
+```java
 public class MainActivity: IDBRServerLicenseVerificationListener
 {
     ...
@@ -99,8 +101,8 @@ public class MainActivity: IDBRServerLicenseVerificationListener
 
 ```
 **full license for 8.x and higher versions:**
-```
-public class MainActivity: IDBRLTSLicenseVerificationListener
+```java
+public class MainActivity: IDBRDLSLicenseVerificationListener
 {
     ...
     ...
@@ -110,14 +112,14 @@ public class MainActivity: IDBRLTSLicenseVerificationListener
 
         BarcodeReader reader = new BarcodeReader("");
         MainActivity main = new MainActivity();
-        DMLTSConnectionParameters info = new DMLTSConnectionParameters();
-        info.organizationID = "********";
-        //info.handshakeCode = "******";
+        DMLTSConnectionParameters info = new DMDLSConnectionParameters();
+        info.handshakeCode = "******";
+        //info.organizationID = "********";
         reader.InitLicenseFromLTS(info, main);
     }
     
     ...
-    void IDBRLTSLicenseVerificationListener.LTSLicenseVerificationCallback(bool p0, Java.Lang.Exception exception)
+    void IDBRDLSLicenseVerificationListener.DLSLicenseVerificationCallback(bool p0, Java.Lang.Exception exception)
     {
         if (p0)
         {

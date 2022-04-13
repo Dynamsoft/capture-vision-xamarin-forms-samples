@@ -35,16 +35,17 @@ The repository aims to help developers build **Android** and **iOS** barcode app
 
 ## Examples
 - examples
+    - XamarinForms (Xamarin.Forms sample)
+        - [DBRXFSSample](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/XamarinForms/DBRXFSample) 
+            
+            ![Xamarin.Forms barcode scanner](https://www.dynamsoft.com/codepool/img/2021/xamarin-forms-camera-barcode-scanner.jpg)
+    > Note: This is the recommended sample to go with if you are looking to build a hybrid (iOS and Android) application using Xamarin and the Dynamsoft Barcode Reader.
     - Android
         - [helloworld](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/Android/helloworld)
         - [camera](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/Android/camera)
     - iOS
         - [helloworld](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/iOS/helloworld)
         - [camera](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/iOS/camera)
-    - XamarinForms (Xamarin.Forms sample)
-        - [DBRXFSSample](https://github.com/dynamsoft-dbr/xamarin/tree/master/examples/XamarinForms/DBRXFSample) 
-            
-            ![Xamarin.Forms barcode scanner](https://www.dynamsoft.com/codepool/img/2021/xamarin-forms-camera-barcode-scanner.jpg)
         
         
 
