@@ -62,7 +62,7 @@ public class CaptureOutput : IDMDLSLicenseVerificationDelegate
 }
 ```
 
-> Note: In DBR 9, please note that the `iDMDLSConnectionParameters`, `IDMDLSLicenseVerificationDelegate`, `IDBRServerLicenseVerificationDelegate`, `initLicenseFromServer`, and `initLicenseFromDLS` are all officially deprecated but they should still be used in the Xamarin implmentation as the new `initLicense` method is still not included in the Xamarin package. (DBR 9 release notes: [iOS](https://www.dynamsoft.com/barcode-reader/programming/objectivec-swift/release-notes/ios-9.html?ver=latest) / [Android](https://www.dynamsoft.com/barcode-reader/programming/android/release-notes/android-9.html?ver=latest#900-03222022))
+> Note: In DBR 9, please note that the `iDMDLSConnectionParameters`, `IDMDLSLicenseVerificationDelegate`, `IDBRServerLicenseVerificationDelegate`, `initLicenseFromServer`, and `initLicenseFromDLS` are all officially deprecated but they should still be used in the Xamarin implmentation as the new `initLicense` method is still not included in the Xamarin package. (DBR 9 release notes: [iOS](https://www.dynamsoft.com/barcode-reader/programming/objectivec-swift/release-notes/ios-9.html?ver=latest))
 
 ### Android: 
 
@@ -112,10 +112,10 @@ public class MainActivity: IDBRDLSLicenseVerificationListener
 
         BarcodeReader reader = new BarcodeReader("");
         MainActivity main = new MainActivity();
-        DMLTSConnectionParameters info = new DMDLSConnectionParameters();
+        DMDLSConnectionParameters info = new DMDLSConnectionParameters();
         info.handshakeCode = "******";
         //info.organizationID = "********";
-        reader.InitLicenseFromLTS(info, main);
+        reader.InitLicenseFromDLS(info, main);
     }
     
     ...
@@ -126,9 +126,10 @@ public class MainActivity: IDBRDLSLicenseVerificationListener
             Console.WriteLine("success");
         }
         else {
-            Console.WriteLine("error = " + p1);
+            Console.WriteLine("error = " + exception);
         }
     }
 }
 
 ```
+> Note: In DBR 9, please note that the `DMDLSConnectionParameters`, `IDBRDLSLicenseVerificationListener`, `IDBRServerLicenseVerificationListener`, `initLicenseFromServer`, and `initLicenseFromDLS` are all officially deprecated but they should still be used in the Xamarin implmentation as the new `initLicense` method is still not included in the Xamarin package. (DBR 9 release notes: [Android](https://www.dynamsoft.com/barcode-reader/programming/android/release-notes/android-9.html?ver=latest#900-03222022))

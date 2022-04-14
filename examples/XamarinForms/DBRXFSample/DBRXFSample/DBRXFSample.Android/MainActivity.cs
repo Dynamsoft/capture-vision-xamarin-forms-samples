@@ -86,7 +86,8 @@ namespace DBRXFSample.Droid
         private SurfaceView surface = null;
         private Android.Hardware.Camera camera;
 
-        private static BarcodeReader barcodeReader = new BarcodeReader("t0068MgAAAByo0OdFR2KWLO5/rjTOorKni0BLRFwoXKdjNhJVOziu1tC6OG3+qWQpJYRcnSOT6AR+6OJDeXwKTc79buYbtDY=");
+        // using trial license
+        // private static BarcodeReader barcodeReader = new BarcodeReader("t0068MgAAAByo0OdFR2KWLO5/rjTOorKni0BLRFwoXKdjNhJVOziu1tC6OG3+qWQpJYRcnSOT6AR+6OJDeXwKTc79buYbtDY=");
         private static MyHandler myHandler = new MyHandler();
         private static int previewWidth;
         private static int previewHeight;
@@ -106,6 +107,17 @@ namespace DBRXFSample.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+            // Initialize the barcodeReader instance this way if using the long alphanumeric trial key
+            //barcodeReader = new BarcodeReader("t0068MgAAAByo0OdFR2KWLO5/rjTOorKni0BLRFwoXKdjNhJVOziu1tC6OG3+qWQpJYRcnSOT6AR+6OJDeXwKTc79buYbtDY=");
+
+            // Initializes the barcode reader instance using a DLS-based license, trial or full
+            barcodeReader = new BarcodeReader();
+            MainActivity main = new MainActivity();
+            DMDLSConnectionParameters info = new DMDLSConnectionParameters();
+            //info.HandshakeCode = "****";
+            info.OrganizationID = "314540";
+            barcodeReader.InitLicenseFromDLS(info, main);
+
             flashOn = false;
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.MatchParent);
             surface = new SurfaceView(this);
