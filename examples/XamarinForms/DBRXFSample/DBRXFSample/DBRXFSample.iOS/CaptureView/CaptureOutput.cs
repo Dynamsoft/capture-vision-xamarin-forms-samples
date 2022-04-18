@@ -49,29 +49,29 @@ namespace DBRXFSample.iOS.CaptureView
 
         private void ReadTask()
         {
-            if (reader.License != null)
+            
+            results = reader.DecodeBuffer(buffer,
+                                        width,
+                                        height,
+                                        bpr,
+                                        EnumImagePixelFormat.Argb8888,
+                                        "", out errorr);
+                                        
+            if (results != null && results.Length > 0)
             {
-                results = reader.DecodeBuffer(buffer,
-                                          width,
-                                          height,
-                                          bpr,
-                                          EnumImagePixelFormat.Argb8888,
-                                          "", out errorr);
-                if (results != null && results.Length > 0)
+                for (int i = 0; i < results.Length; i++)
                 {
-                    for (int i = 0; i < results.Length; i++)
-                    {
-                        if (i == 0)
-                            result = "Code[1]: " + results[0].BarcodeText;
-                        else
-                            result = result + "\n\n" + "Code[" + (i + 1) + "]: " + results[i].BarcodeText;
-                    }
-                }
-                else
-                {
-                    result = "";
+                    if (i == 0)
+                        result = "Code[1]: " + results[0].BarcodeText;
+                    else
+                        result = result + "\n\n" + "Code[" + (i + 1) + "]: " + results[i].BarcodeText;
                 }
             }
+            else
+            {
+                result = "";
+            }
+            
             DispatchQueue.MainQueue.DispatchAsync(update);
             ready = true;
         }
