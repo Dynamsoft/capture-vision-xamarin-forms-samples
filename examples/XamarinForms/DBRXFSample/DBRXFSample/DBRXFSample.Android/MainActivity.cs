@@ -115,7 +115,7 @@ namespace DBRXFSample.Droid
             MainActivity main = new MainActivity();
             DMDLSConnectionParameters info = new DMDLSConnectionParameters();
             //info.HandshakeCode = "****";
-            info.OrganizationID = "314540";
+            info.OrganizationID = "****"; // use either organizationID or handshakeCode, but not both
             barcodeReader.InitLicenseFromDLS(info, main);
 
             flashOn = false;

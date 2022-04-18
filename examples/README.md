@@ -49,7 +49,7 @@ public class CaptureOutput : IDMDLSLicenseVerificationDelegate
         reader = new DynamsoftBarcodeReader(parameters, Self);
     }
     ...
-    void IDMLTSLicenseVerificationDelegate.Error(bool isSuccess, NSError error)
+    void IDMDLSLicenseVerificationDelegate.Error(bool isSuccess, NSError error)
     {
         if (isSuccess)
         {
