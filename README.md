@@ -1,0 +1,1 @@
+Dynamsoft Capture Vision Xamarin.Forms
