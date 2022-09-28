@@ -5,7 +5,9 @@
              x:Class="BarcodeReaderSimpleSample.MainPage">
 
     <StackLayout>
-            <Button x:Name="customRenderer" Text="Start Scanning" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Clicked="OnCustomRendererButtonClicked" />
+        <Label x:Name="mainPageLabel" Text = '' HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+        <Button x:Name="oneoffscanButton" Text="One-off Scan" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Clicked="oneoffscanButton_Clicked"/>
+        <Button x:Name="customRenderer" Text="Start Scanning" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Clicked="OnCustomRendererButtonClicked" />
     </StackLayout>
 
 </ContentPage>

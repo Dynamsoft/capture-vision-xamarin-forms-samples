@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 
 using Xamarin.Forms;
-
 using DCVXamarin;
 
 namespace BarcodeReaderSimpleSample
 {
-    public partial class CustomRendererPage : ContentPage, IBarcodeResultListener
+    public partial class OneoffScanPage : ContentPage, IBarcodeResultListener
     {
-        public CustomRendererPage()
+        public EventHandler<string> Value;
+
+        public OneoffScanPage()
         {
             InitializeComponent();
-            label.Text = "null";
             App.dbr.AddResultListener(this);
             App.dbr.UpdateRuntimeSettings(EnumDBRPresetTemplate.VIDEO_SINGLE_BARCODE);
             App.dbr.SetCameraEnhancer(App.dce);
@@ -22,7 +22,7 @@ namespace BarcodeReaderSimpleSample
         {
             base.OnAppearing();
             App.dbr.StartScanning();
-            App.dce.Open();        
+            App.dce.Open();           
         }
 
         protected override void OnDisappearing()
@@ -36,15 +36,22 @@ namespace BarcodeReaderSimpleSample
         {
             if (textResults != null && textResults.Length > 0)
             {
-                if (textResults[0].BarcodeText != null && label != null)
+                if (textResults[0].BarcodeText != null )
                 {
-                    Device.BeginInvokeOnMainThread(() => {
-                        label.Text = textResults[0].BarcodeText;
-                    }
-                        );
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        EventHandler<string> handler = Value;
+                        if (handler != null)
+                        {
+                            string str = "One-off Scan result:\n" + textResults[0].BarcodeText;
+                            handler(this, str);
+                        }
+                        Navigation.PopAsync();
+                    });
                 }
 
             }
         }
+
     }
 }
