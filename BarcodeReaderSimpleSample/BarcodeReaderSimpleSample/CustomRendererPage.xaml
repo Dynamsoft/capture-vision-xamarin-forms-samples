@@ -7,14 +7,17 @@
     Title="Dynamsoft Capture Vision">
     <ContentPage.Content>
         <AbsoluteLayout>
+            <!-- Configure DCVCameraView. If attribute OverlayVisible is set to true, the decoded barcodes will be highlighted on the video streaming. -->
             <dynamsoft:DCVCameraView OverlayVisible="True"
 							         AbsoluteLayout.LayoutBounds="0,0,1,1"
                                      AbsoluteLayout.LayoutFlags="All">
+                <!-- Add a torch button on the camera view-->
                 <dynamsoft:DCVCameraView.TorchButton>
                     <dynamsoft:TorchButton Visible="True">
                     </dynamsoft:TorchButton>
                 </dynamsoft:DCVCameraView.TorchButton>
             </dynamsoft:DCVCameraView>
+            <!-- This is the label for displaying barcode results -->
             <Label x:Name="label" Text = ''
                    AbsoluteLayout.LayoutBounds="0.5,0.5,300,25"
                    AbsoluteLayout.LayoutFlags="PositionProportional"/>
