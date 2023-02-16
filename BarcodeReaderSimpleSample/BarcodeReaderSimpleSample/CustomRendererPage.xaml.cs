@@ -14,6 +14,10 @@ namespace BarcodeReaderSimpleSample
             InitializeComponent();
             label.Text = "null";
             App.dbr.AddResultListener(this);
+            // Switch barcode decoding template.
+            // VIDEO_SINGLE_BARCODE: High performance on processing single barcode.
+            // VIDEO_SPEED_FIRST: High processing speed but not good at processing badly printed barcodes or blurry images.
+            // VIDEO_READ_RATE_FIRST: High read rate. Able to decode the badly printed or blurry barcodes but takes a bit longer time on each video frame.
             App.dbr.UpdateRuntimeSettings(EnumDBRPresetTemplate.VIDEO_SINGLE_BARCODE);
             App.dbr.SetCameraEnhancer(App.dce);
         }
