@@ -17,7 +17,7 @@ namespace BarcodeReaderSimpleSample
             dbr = reader;
             // Initialize license for the Barcode Decoding module of Dynamsoft Capture Vision.
             // The license string here is a time-limited trial license. Note that network connection is required for this license to work.
-            // You can also request an extension for your trial license in the customer portal: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&utm_source=installer&package=xamarin
+            // You can also request an extension for your trial license in the customer portal: https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&utm_source=samples&package=xamarin
             dbr.InitLicense("DLS2eyJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSJ9", this);
             MainPage = new NavigationPage(new MainPage());
         }
