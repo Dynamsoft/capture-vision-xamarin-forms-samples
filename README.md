@@ -2,8 +2,8 @@
 
 This repository contains multiple samples that demonstrate how to use the Dynamsoft Capture Vision Xamarin.Forms Edition.
 
-* [User Guide](https://www.dynamsoft.com/capture-vision/docs/mobile/programming/xamarin/user-guide/barcode-reader.html?product=dbr&version=latest&repoType=mobile){:target="_blank"}
-* [API Reference](https://www.dynamsoft.com/capture-vision/docs/mobile/programming/xamarin/api-reference/?product=dbr&version=latest&repoType=mobile){:target="_blank"}
+* <a href="https://www.dynamsoft.com/capture-vision/docs/mobile/programming/xamarin/user-guide/barcode-reader.html?product=dbr&version=latest&repoType=mobile" target="_blank">User Guide</a>
+* <a href="https://www.dynamsoft.com/capture-vision/docs/mobile/programming/xamarin/api-reference/?product=dbr&version=latest&repoType=mobile" target="_blank">API Reference</a>
 
 ## System Requirements
 
