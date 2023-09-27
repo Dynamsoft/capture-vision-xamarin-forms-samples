@@ -1,27 +1,30 @@
 # Dynamsoft Capture Vision samples for Xamarin.Forms edition
 
-This repository contains multiple samples that demonstrate how to use the [Dynamsoft Capture Vision](https://www.dynamsoft.com/capture-vision/docs/introduction/) Xamarin.Forms Edition.
+This repository contains multiple samples that demonstrate how to use the Dynamsoft Capture Vision Xamarin.Forms Edition.
+
+* [User Guide](https://www.dynamsoft.com/capture-vision/docs/mobile/programming/xamarin/user-guide/barcode-reader.html?product=dbr&version=latest&repoType=mobile){:target="_blank"}
+* [API Reference](https://www.dynamsoft.com/capture-vision/docs/mobile/programming/xamarin/api-reference/?product=dbr&version=latest&repoType=mobile){:target="_blank"}
 
 ## System Requirements
 
 ### Xamarin
 
-- NETStandard.Library 2.0+
-- Xamarin.Forms 5.0.0.2478+
-- Xamarin.Essentials: 1.3.1+ (1.4.0+ Recommended
+* NETStandard.Library 2.0+
+* Xamarin.Forms 5.0.0.2478+
+* Xamarin.Essentials: 1.3.1+ (1.4.0+ Recommended)
 
 ### Android
 
-- Supported OS: Android 5.0 (API Level 21) or higher.
-- Supported ABI: **armeabi-v7a**, **arm64-v8a**, **x86** and **x86_64**.
-- Development Environment: Android Studio 3.4+ (Android Studio 4.2+ recommended).
-- JDK: 1.8+
+* Supported OS: Android 5.0 (API Level 21) or higher.
+* Supported ABI: **armeabi-v7a**, **arm64-v8a**, **x86** and **x86_64**.
+* Development Environment: Android Studio 3.4+ (Android Studio 4.2+ recommended).
+* JDK: 1.8+
 
 ### iOS
 
-- Supported OS: **iOS 10.0** or higher.
-- Supported ABI: **arm64** and **x86_64**.
-- Development Environment: Xcode 7.1 and above (Xcode 13.0+ recommended), CocoaPods 1.11.0+.
+* Supported OS: **iOS 10.0** or higher.
+* Supported ABI: **arm64** and **x86_64**.
+* Development Environment: Xcode 7.1 and above (Xcode 13.0+ recommended), CocoaPods 1.11.0+.
 
 ## Samples
 
@@ -46,9 +49,9 @@ Select **BarcodeReaderSimpleSample.Android** and select your device. Run the pro
 
 ## Licensing
 
-- The `BarcodeReader` module of Dynamsoft Capture Vision needs a valid license to work.
-- A one-day trial license is available by default for every new device to try Dynamsoft Capture Vision.
-- You can <a href="https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=mobile&utm_source=docs" target="_blank"> request a 30-day free trial license</a> via Dynamsoft customer portal for further evaluation.
+* The `BarcodeReader` module of Dynamsoft Capture Vision needs a valid license to work.
+* A one-day trial license is available by default for every new device to try Dynamsoft Capture Vision.
+* You can <a href="https://www.dynamsoft.com/customer/license/trialLicense?product=dbr&package=mobile&utm_source=docs" target="_blank"> request a 30-day free trial license</a> via Dynamsoft customer portal for further evaluation.
 
 ## Contact
 
